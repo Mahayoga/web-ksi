@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Academic Staff')
 @section('content')
   <!-- Hero Section -->
   <section id="hero" class="hero section light-background">
