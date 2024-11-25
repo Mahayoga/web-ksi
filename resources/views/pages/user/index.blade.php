@@ -13,9 +13,10 @@
       <div class="content row gy-4">
         <div class="col-lg-12 d-flex align-items-stretch justify-content-center">
           <div class="w-75" data-aos="zoom-out" data-aos-delay="200">
-            <form action="" method="post" class="d-flex flex-column align-items-center">
+            <form action="{{ route('search.index') }}" method="post" class="d-flex flex-column align-items-center">
+              @csrf
               <div class="form-group mb-4 w-100">
-                <input type="text" name="search" id="search" placeholder="Ketikkan kata kunci" class="form-control">
+                <input type="text" name="key" id="key" placeholder="Ketikkan kata kunci" class="form-control">
               </div>
               <button class="btn btn-primary w-25" type="submit">Search</button>
             </form>
