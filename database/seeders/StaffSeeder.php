@@ -26,7 +26,7 @@ class StaffSeeder extends Seeder
             'tanggal_lahir' => '1991-12-11',
             'email_staff' => 'khafid@polije.ac.id',
             'nomor_telepon' => '085646418027',
-            'alamat_kantor' => 'Jl. Mastrip PO BOX 164 Jember',
+            'id_kantor' => 'd4c945f3-abc1-11ef-80d9-d4dedcb2e874',
             'fax' => '0331-333531',
         ]);
     }

@@ -23,8 +23,8 @@ return new class extends Migration
             $table->date('tanggal_lahir');
             $table->string('email_staff')->unique();
             $table->string('nomor_telepon');
-            $table->string('alamat_kantor');
             $table->string('fax');
+            $table->uuid('id_kantor');
             $table->timestamps();
         });
     }
