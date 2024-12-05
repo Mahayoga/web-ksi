@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\StaffModel;
+use App\Models\KantorModel;
 use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller
@@ -44,7 +45,9 @@ class SearchController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $dataStaff = StaffModel::find($id);
+        $dataKampus = KantorModel::find($dataStaff->kantor[0]->id_kantor);
+        return view('pages.user.search.show', compact('dataStaff', 'dataKampus'));
     }
 
     /**

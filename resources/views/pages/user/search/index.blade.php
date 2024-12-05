@@ -48,7 +48,7 @@
         </style>
         @foreach ($dataStaff as $item)
           <div class="col-md-4">
-            <a href="#">
+            <a href="{{ route('search.show', ['search' => $item->id_staff]) }}">
               <div class="card shadow">
                 <div class="card-body d-flex">
                   <div class="col-md-3 me-2">
