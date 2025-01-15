@@ -22,8 +22,18 @@ class SearchController extends Controller
         $dataJumlah = StaffModel::selectRaw('COUNT(*) as jumlah')
             ->where('nama_lengkap', 'like', '%' . $key . '%')
             ->get();
-        // dd($dataJumlah[0]->jumlah);
-        return view('pages.user.search.index', compact('dataStaff', 'dataJumlah', 'key'));
+        $resultData = [];
+        foreach($dataStaff as $item) {
+            $resultData[] = [
+                'dataStaff' => $item,
+                'dataPublikasi' => StaffModel::countPublikasi($item->id_staff),
+                'dataPaten' => StaffModel::countPaten($item->id_staff),
+                'dataPrototipe' => StaffModel::countPrototipe($item->id_staff),
+                'dataPenelitian' => StaffModel::countPenelitian($item->id_staff),
+                'dataPengabdian' => StaffModel::countPengabdian($item->id_staff),
+            ];
+        }
+        return view('pages.user.search.index', compact( 'dataJumlah', 'key', 'resultData'));
     }
 
     /**

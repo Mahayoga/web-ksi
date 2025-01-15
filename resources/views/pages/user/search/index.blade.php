@@ -46,20 +46,20 @@
             to {border: var(--bs-card-border-width) solid var(--bs-border-color-translucent);}
           }
         </style>
-        @foreach ($dataStaff as $item)
+        @foreach ($resultData as $item)
           <div class="col-md-4">
-            <a href="{{ route('search.show', ['search' => $item->id_staff]) }}">
+            <a href="{{ route('search.show', ['search' => $item['dataStaff']->id_staff]) }}">
               <div class="card shadow">
                 <div class="card-body d-flex">
                   <div class="col-md-3 me-2">
                     <img src="{{ asset('assets/img/staff/khafid.png') }}" alt="profil" class="rounded-circle w-100">
                   </div>
                   <div class="col-md-9">
-                    <p class="fs-6 m-0 text-primary-emphasis fw-bold">{{ $item->nama_lengkap }}, {{ $item->gelar }}</p>
+                    <p class="fs-6 m-0 text-primary-emphasis fw-bold">{{ $item['dataStaff']->nama_lengkap }}, {{ $item['dataStaff']->gelar }}</p>
                     <p class="fs-6">Information Technology</p>
-                    <p class="fs-6 m-0 text-primary-emphasis fw-light">0 Publication 0 Patent/IP</p>
-                    <p class="fs-6 m-0 text-primary-emphasis fw-light">0 Prototype 0 Research</p>
-                    <p class="fs-6 text-primary-emphasis fw-light">0 Community Service</p>
+                    <p class="fs-6 m-0 text-primary-emphasis fw-light">{{ $item['dataPublikasi']->jumlah }} Publication {{ $item['dataPaten']->jumlah }} Patent/IP</p>
+                    <p class="fs-6 m-0 text-primary-emphasis fw-light">{{ $item['dataPrototipe']['jumlah'] }} Prototype {{ $item['dataPenelitian']->jumlah }} Research</p>
+                    <p class="fs-6 text-primary-emphasis fw-light">{{ $item['dataPengabdian']->jumlah }} Community Service</p>
                   </div>
                 </div>
               </div>

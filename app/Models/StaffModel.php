@@ -45,4 +45,43 @@ class StaffModel extends Model
     public function penghargaan() {
         return $this->hasMany(PenghargaanModel::class, 'id_staff', 'id_staff');
     }
+
+
+    // Method count data pemilik staff
+    public static function countPublikasi($id) {
+        $hasil = ArtikelModel::selectRaw("COUNT(*) as jumlah")
+            ->where("id_staff", $id)
+            ->get();
+        return $hasil[0];
+    }
+
+    public static function countPaten($id) {
+        $hasil = HKIModel::selectRaw("COUNT(*) as jumlah")
+            ->where("id_staff", $id)
+            ->get();
+        return $hasil[0];
+    }
+
+    // Prototipe ??
+    public static function countPrototipe($id) {
+        // $hasil = HKIModel::selectRaw("COUNT(*) as jumlah")
+        //     ->where("id_staff", $id)
+        //     ->get();
+        // return $hasil[0];
+        return ["jumlah" => 0];
+    }
+
+    public static function countPenelitian($id) {
+        $hasil = PenelitianModel::selectRaw("COUNT(*) as jumlah")
+            ->where("id_staff", $id)
+            ->get();
+        return $hasil[0];
+    }
+
+    public static function countPengabdian($id) {
+        $hasil = PengabdianModel::selectRaw("COUNT(*) as jumlah")
+            ->where("id_staff", $id)
+            ->get();
+        return $hasil[0];
+    }
 }
