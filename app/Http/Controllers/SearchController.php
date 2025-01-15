@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\StaffModel;
 use App\Models\KantorModel;
+use App\Models\PenelitianModel;
+use App\Models\RiwayatPendidikanModel;
 use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller
@@ -47,7 +49,26 @@ class SearchController extends Controller
     {
         $dataStaff = StaffModel::find($id);
         $dataKampus = KantorModel::find($dataStaff->kantor[0]->id_kantor);
-        return view('pages.user.search.show', compact('dataStaff', 'dataKampus'));
+        $dataRiwayatPendidikan = $dataStaff->riwayat_pendidikan;
+        $dataPenelitian = $dataStaff->penelitian;
+        $dataPengabdian = $dataStaff->pengabdian;
+        $dataArtikel = $dataStaff->artikel;
+        $dataSeminar = $dataStaff->seminar;
+        $dataBuku = $dataStaff->buku;
+        $dataHKI = $dataStaff->hki;
+        $dataPenghargaan = $dataStaff->penghargaan;
+        return view('pages.user.search.show', compact(
+            'dataStaff', 
+            'dataKampus',
+            'dataRiwayatPendidikan',
+            'dataPenelitian',
+            'dataPengabdian', 
+            'dataArtikel', 
+            'dataSeminar',
+            'dataBuku',
+            'dataHKI',
+            'dataPenghargaan'
+        ));
     }
 
     /**

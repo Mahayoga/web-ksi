@@ -11,7 +11,7 @@ Route::get('/', function () {
 })->name('landing');
 
 Route::get('test/get-uuid', function() {
-    return DB::raw('SELECT UUID() as hehe');
+    return DB::select('SELECT UUID() as hehe')[0]->hehe;
 });
 
 Route::resource('search', SearchController::class)->except('index');

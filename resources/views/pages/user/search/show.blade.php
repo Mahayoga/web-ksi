@@ -38,7 +38,7 @@
                   <span class="material-symbols-outlined">location_on</span>
                 </div>
                 <div class="col-md-11 ps-0">
-                  <span>{{ $dataStaff->kantor[0]->nama_kantor }} {{ $dataKampus->kampus[0]->nama_kampus }} {{ $dataStaff->kantor[0]->alamat_kantor }}</span>
+                  <span>{{ $dataStaff->kantor[0]->nama_kantor }}, {{ $dataKampus->kampus[0]->nama_kampus }}, {{ $dataStaff->kantor[0]->alamat_kantor }}</span>
                 </div>
               </div>
               <div class="row text-primary-emphasis fw-light">
@@ -72,7 +72,7 @@
           <div class="card-body fw-light">{{ $dataStaff->nama_lengkap }} Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error dignissimos atque quas aut pariatur tenetur quos consequuntur qui ea at dolorem sapiente totam numquam, odit fuga quisquam corporis modi ratione! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsa porro doloremque quaerat. Voluptate ratione enim illo, commodi, consectetur mollitia ipsa nesciunt quasi, ducimus corporis iure! Debitis ratione atque quos omnis!</div>
         </div>
         <div class="card shadow-sm p-3 my-4">
-          <div class="card-title text-primary-emphasis fw-bold">CONTOH JUDUL PROFIL (UPPERCASE)</div>
+          <div class="card-title text-primary-emphasis fw-bold">DETAIL PROFIL</div>
           <div class="card-body fw-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur, beatae veniam quia magnam architecto iste necessitatibus culpa totam vitae tempore, consequuntur, ipsam nam eaque harum maiores error saepe maxime officiis!</div>
         </div>
       </div>
@@ -80,64 +80,112 @@
       <!-- History of College Section -->
       <div class="row custom-section d-none" id="history-collage">
         <div class="card shadow-sm p-3 my-4">
-          <div class="card-title text-primary-emphasis fw-bold">CONTOH JUDUL RIWAYAT PENDIDIKAN (UPPERCASE)</div>
-          <div class="card-body fw-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur, beatae veniam quia magnam architecto iste necessitatibus culpa totam vitae tempore, consequuntur, ipsam nam eaque harum maiores error saepe maxime officiis!</div>
+          <div class="card-title text-primary-emphasis fw-bold">RIWAYAT PENDIDIKAN</div>
+          <div class="card-body fw-light">
+            @foreach ($dataRiwayatPendidikan as $item)
+              <div>
+                {{ $item->lulusan }} {{ $item->bidang_ilmu }}, {{ $item->nama_perguruan_tinggi }} ({{ $item->tahun_masuk }} - {{ $item->tahun_lulus }})
+              </div>
+            @endforeach
+          </div>
         </div>
       </div>
 
       <!-- Research Section -->
       <div class="row custom-section d-none" id="research">
         <div class="card shadow-sm p-3 my-4">
-          <div class="card-title text-primary-emphasis fw-bold">CONTOH JUDUL PENELITIAN (UPPERCASE)</div>
-          <div class="card-body fw-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur, beatae veniam quia magnam architecto iste necessitatibus culpa totam vitae tempore, consequuntur, ipsam nam eaque harum maiores error saepe maxime officiis!</div>
+          <div class="card-title text-primary-emphasis fw-bold">PENELITIAN</div>
+          <div class="card-body fw-light">
+            @foreach ($dataPenelitian as $item)
+              <div>
+                {{ $item->judul_penelitian }}, {{ $item->tahun_penelitian }}
+              </div>
+            @endforeach
+          </div>
         </div>
       </div>
 
       <!-- Community Service Section -->
       <div class="row custom-section d-none" id="community-service">
         <div class="card shadow-sm p-3 my-4">
-          <div class="card-title text-primary-emphasis fw-bold">CONTOH JUDUL PENGABDIAN (UPPERCASE)</div>
-          <div class="card-body fw-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur, beatae veniam quia magnam architecto iste necessitatibus culpa totam vitae tempore, consequuntur, ipsam nam eaque harum maiores error saepe maxime officiis!</div>
+          <div class="card-title text-primary-emphasis fw-bold">PENGABDIAN</div>
+          <div class="card-body fw-light">
+            @foreach ($dataPengabdian as $item)
+              <div>
+                {{ $item->judul_pengabdian }}, {{ $item->tahun_pengabdian }}
+              </div>
+            @endforeach
+          </div>
         </div>
       </div>
 
       <!-- Article Section -->
       <div class="row custom-section d-none" id="article">
         <div class="card shadow-sm p-3 my-4">
-          <div class="card-title text-primary-emphasis fw-bold">CONTOH JUDUL ARTIKEL (UPPERCASE)</div>
-          <div class="card-body fw-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur, beatae veniam quia magnam architecto iste necessitatibus culpa totam vitae tempore, consequuntur, ipsam nam eaque harum maiores error saepe maxime officiis!</div>
+          <div class="card-title text-primary-emphasis fw-bold">ARTIKEL</div>
+          <div class="card-body fw-light">
+            @foreach ($dataArtikel as $item)
+              <div>
+                <a href="{{ $item->link_artikel }}">{{ $item->judul_artikel }} </a>({{ $item->tahun }})
+              </div>
+            @endforeach
+          </div>
         </div>
       </div>
 
       <!-- Seminar Section -->
       <div class="row custom-section d-none" id="seminar">
         <div class="card shadow-sm p-3 my-4">
-          <div class="card-title text-primary-emphasis fw-bold">CONTOH JUDUL SEMINAR (UPPERCASE)</div>
-          <div class="card-body fw-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur, beatae veniam quia magnam architecto iste necessitatibus culpa totam vitae tempore, consequuntur, ipsam nam eaque harum maiores error saepe maxime officiis!</div>
+          <div class="card-title text-primary-emphasis fw-bold">SEMINAR</div>
+          <div class="card-body fw-light">
+            @foreach ($dataSeminar as $item)
+              <div>
+                <a href="{{ $item->link_seminar }}">{{ $item->judul_seminar }}, </a>{{ $item->tempat }} ({{ $item->tahun }})
+              </div>
+            @endforeach
+          </div>
         </div>
       </div>
 
       <!-- Book Section -->
       <div class="row custom-section d-none" id="book">
         <div class="card shadow-sm p-3 my-4">
-          <div class="card-title text-primary-emphasis fw-bold">CONTOH JUDUL KARYA BUKU (UPPERCASE)</div>
-          <div class="card-body fw-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur, beatae veniam quia magnam architecto iste necessitatibus culpa totam vitae tempore, consequuntur, ipsam nam eaque harum maiores error saepe maxime officiis!</div>
+          <div class="card-title text-primary-emphasis fw-bold">KARYA BUKU</div>
+          <div class="card-body fw-light">
+            @foreach ($dataBuku as $item)
+              <div>
+                {{ $item->judul_buku }} ({{ $item->tahun }})
+              </div>
+            @endforeach
+          </div>
         </div>
       </div>
 
       <!-- HKI Section -->
       <div class="row custom-section d-none" id="copyright">
         <div class="card shadow-sm p-3 my-4">
-          <div class="card-title text-primary-emphasis fw-bold">CONTOH JUDUL HKI (UPPERCASE)</div>
-          <div class="card-body fw-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur, beatae veniam quia magnam architecto iste necessitatibus culpa totam vitae tempore, consequuntur, ipsam nam eaque harum maiores error saepe maxime officiis!</div>
+          <div class="card-title text-primary-emphasis fw-bold">HKI</div>
+          <div class="card-body fw-light">
+            @foreach ($dataHKI as $item)
+              <div>
+                <a href="{{ $item->link_hki }}">{{ $item->judul_hki }}</a> ({{ $item->tanggal }})
+              </div>
+            @endforeach
+          </div>
         </div>
       </div>
 
       <!-- Awards Section -->
       <div class="row custom-section d-none" id="award">
         <div class="card shadow-sm p-3 my-4">
-          <div class="card-title text-primary-emphasis fw-bold">CONTOH JUDUL PENGHARGAAN (UPPERCASE)</div>
-          <div class="card-body fw-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur, beatae veniam quia magnam architecto iste necessitatibus culpa totam vitae tempore, consequuntur, ipsam nam eaque harum maiores error saepe maxime officiis!</div>
+          <div class="card-title text-primary-emphasis fw-bold">PENGHARGAAN</div>
+          <div class="card-body fw-light">
+            @foreach ($dataPenghargaan as $item)
+              <div>
+                {{ $item->jenis_penghargaan }}, {{ $item->penghargaan }} - {{ $item->pemberi }} ({{ $item->tahun }})
+              </div>
+            @endforeach
+          </div>
         </div>
       </div>
 

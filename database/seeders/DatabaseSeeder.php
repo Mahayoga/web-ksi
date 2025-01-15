@@ -24,5 +24,13 @@ class DatabaseSeeder extends Seeder
         $this->call(KampusSeeder::class);
         $this->call(KantorSeeder::class);
         $this->call(StaffSeeder::class);
+        $this->call(PenelitianSeeder::class);
+        $this->call(RiwayatPendidikanSeeder::class);
+        $this->call(PengabdianSeeder::class);
+        $this->call(ArtikelSeeder::class);
+        $this->call(SeminarSeeder::class);
+        $this->call(BukuSeeder::class);
+        $this->call(HKISeeder::class);
+        $this->call(PenghargaanSeeder::class);
     }
 }
