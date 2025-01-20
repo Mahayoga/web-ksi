@@ -14,7 +14,7 @@ class LoginController extends Controller
     public function index()
     {
         if(Auth::check()) {
-            return redirect()->route('dashboard');
+            return redirect()->route('landing');
         }
         return view('pages.auth.index');
     }
@@ -38,7 +38,7 @@ class LoginController extends Controller
         ]);
         
         if(Auth::attempt($validate)) {
-            return redirect()->route('dashboard');
+            return redirect()->route('landing');
         }
 
         return redirect()->route('login.index');
@@ -71,8 +71,9 @@ class LoginController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy()
     {
-        //
+        Auth::logout();
+        return redirect()->route('landing');
     }
 }
