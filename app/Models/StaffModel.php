@@ -46,6 +46,10 @@ class StaffModel extends Model
         return $this->hasMany(PenghargaanModel::class, 'id_staff', 'id_staff');
     }
 
+    public function users() {
+        return $this->hasOne(UserModel::class, 'id_staff', 'id_staff');
+    }
+
 
     // Method count data pemilik staff
     public static function countPublikasi($id) {
