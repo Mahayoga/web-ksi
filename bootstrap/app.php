@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\CheckLogin;
+use App\Http\Middleware\Guest;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -11,7 +13,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->prependToGroup('check.login', [
+            CheckLogin::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
