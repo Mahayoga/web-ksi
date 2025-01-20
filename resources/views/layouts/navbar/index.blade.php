@@ -5,7 +5,11 @@
         {{-- <img src="{{ asset('assets/img/logo.png') }}" alt=""> --}}
         <h1 class="sitename">LAB KSI</h1>
       </a>
-      <a class="cta-btn d-none d-sm-block" href="#appointment">Login</a>
+      @if (Auth::check())
+        <a class="d-none d-sm-block" href="{{ route('dashboard.index') }}">{{ Auth::user()->name }}</a>
+      @else
+        <a class="cta-btn d-none d-sm-block" href="{{ route('login.index') }}">Login</a>
+      @endif
       <nav id="navmenu" class="navmenu">
         <ul>
           <li class="dropdown"><a href="#"><span>Language</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
