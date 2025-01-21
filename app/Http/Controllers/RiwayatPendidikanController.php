@@ -45,7 +45,14 @@ class RiwayatPendidikanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $dataRiwayat = RiwayatPendidikanModel::find($id);
+        $dataPenelitian = $dataRiwayat->penelitian;
+        $dataPembimbing = $dataRiwayat->pembimbing;
+        return response()->json([
+            'dataRiwayat' => $dataRiwayat,
+            'dataPenelitian' => $dataPenelitian,
+            'dataPembimbing' => $dataPembimbing
+        ]);
     }
 
     /**

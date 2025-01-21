@@ -28,7 +28,7 @@
               <td>{{ $item->lulusan }}</td>
               <td>{{ $dataPembimbing[$i - 1]->nama_lengkap }} {{ $dataPembimbing[$i - 1]->gelar }}</td>
               <td class="d-flex">
-                <a href="{{ route('riwayatpendidikan.show', ['riwayatpendidikan' => $item->id_riwayat]) }}" class="btn btn-primary p-2 mx-1"><i class="fas fa-eye"></i></a>
+                <a href="" class="btn btn-primary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#showModal" onclick="showModalRiwayat('{{ $item->id_riwayat }}')"><i class="fas fa-eye"></i></a>
                 <a href="{{ route('riwayatpendidikan.edit', ['riwayatpendidikan' => $item->id_riwayat]) }}" class="btn btn-primary p-2 mx-1"><i class="fas fa-user-pen"></i></a>
                 <a href="{{ route('riwayatpendidikan.destroy', ['riwayatpendidikan' => $item->id_riwayat]) }}" class="btn btn-danger p-2 mx-1"><i class="fas fa-trash-can"></i></a>
               </td>
@@ -39,4 +39,71 @@
       </table>
     </div>
   </div>
+
+  <!-- Show Modal -->
+  <div class="modal fade" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Riwayat Pendidikan</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <th>Nama Perguruan Tinggi</th>
+                <td id="nama_perguruan_tinggi"></td>
+              </tr>
+              <tr>
+                <th>Bidang Ilmu</th>
+                <td id="bidang_ilmu"></td>
+              </tr>
+              <tr>
+                <th>Tahun Masuk - Lulus</th>
+                <td id="periode"></td>
+              </tr>
+              <tr>
+                <th>Gelar</th>
+                <td id="gelar"></td>
+              </tr>
+              <tr>
+                <th>Penelitian</th>
+                <td id="penelitian"></td>
+              </tr>
+              <tr>
+                <th>Pembimbing</th>
+                <td id="pembimbing"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showModalRiwayat(id) {
+      let xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+          let data = JSON.parse(this.responseText);
+          
+          document.getElementById('nama_perguruan_tinggi').innerText = data.dataRiwayat.nama_perguruan_tinggi;
+          document.getElementById('bidang_ilmu').innerText = data.dataRiwayat.bidang_ilmu;
+          document.getElementById('periode').innerText = data.dataRiwayat.tahun_masuk + " - " + data.dataRiwayat.tahun_lulus;
+          document.getElementById('gelar').innerText = data.dataRiwayat.lulusan;
+          document.getElementById('penelitian').innerText = data.dataPenelitian.judul_penelitian;
+          document.getElementById('pembimbing').innerText = data.dataPembimbing.nama_lengkap + " " + data.dataPembimbing.gelar;
+        }
+      };
+      let data = "{{ route('riwayatpendidikan.show', ['riwayatpendidikan' => '__ID__']) }}";
+
+      xhttp.open("GET", data.replace('__ID__', id), true);
+      xhttp.send();
+    }
+  </script>
 @endsection
