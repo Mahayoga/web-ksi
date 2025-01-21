@@ -29,8 +29,6 @@
               <td>{{ $dataPembimbing[$i - 1]->nama_lengkap }} {{ $dataPembimbing[$i - 1]->gelar }}</td>
               <td class="d-flex">
                 <a href="" class="btn btn-primary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#showModal" onclick="showModalRiwayat('{{ $item->id_riwayat }}')"><i class="fas fa-eye"></i></a>
-                <a href="{{ route('riwayatpendidikan.edit', ['riwayatpendidikan' => $item->id_riwayat]) }}" class="btn btn-primary p-2 mx-1"><i class="fas fa-user-pen"></i></a>
-                <a href="{{ route('riwayatpendidikan.destroy', ['riwayatpendidikan' => $item->id_riwayat]) }}" class="btn btn-danger p-2 mx-1"><i class="fas fa-trash-can"></i></a>
               </td>
               @php $i += 1; @endphp
             @endforeach
