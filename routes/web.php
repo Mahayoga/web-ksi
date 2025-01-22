@@ -36,6 +36,11 @@ Route::middleware('check.login')->group(function() {
     Route::resource('dashboard', DashboardController::class)->only('index');
     Route::resource('profil',ProfilController::class);
     Route::resource('riwayatpendidikan',RiwayatPendidikanController::class);
+    Route::get('get/riwayatpendidikan', [RiwayatPendidikanController::class, 'getData'])->name('riwayatpendidikan.getData');
+        Route::get('get/bidang-pendidikan/{id}', [RiwayatPendidikanController::class, 'getBidangPendidikan'])->name('riwayatpendidikan.getBidangPendidikan');
+        Route::get('get/jenjang/{id}', [RiwayatPendidikanController::class, 'getJenjang'])->name('riwayatpendidikan.getJenjang');
+        Route::get('get/penelitian/pemilik/{id}', [RiwayatPendidikanController::class, 'getPenelitianPemilik'])->name('riwayatpendidikan.getPenelitianPemilik');
+        Route::get('get/pembimbing/not/{id}', [RiwayatPendidikanController::class, 'getPembimbingNot'])->name('riwayatpendidikan.getPembimbingNot');
     Route::resource('penelitian',PenelitianController::class);
     Route::resource('pengabdian',PengabdianController::class);
     Route::resource('artikelilmiah',ArtikelIlmiahController::class);

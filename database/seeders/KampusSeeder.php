@@ -18,5 +18,9 @@ class KampusSeeder extends Seeder
             'id_kampus' => '5929fea7-abc2-11ef-80d9-d4dedcb2e874',
             'nama_kampus' => 'Politeknik Negeri Jember',
         ]);
+        KampusModel::create([
+            'id_kampus' => '5929fea7-abc2-11ef-80d9-d4dedcb2e875',
+            'nama_kampus' => 'Universitas Negeri Malang',
+        ]);
     }
 }

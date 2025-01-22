@@ -15,8 +15,8 @@ class RiwayatPendidikanSeeder extends Seeder
     {
         RiwayatPendidikanModel::create([
             'id_riwayat' => '6a2079fd-b1bf-11ef-9fcd-763fda8715d5',
-            'nama_perguruan_tinggi' => 'Universitas Negeri Malang',
-            'bidang_ilmu' => 'Teknik Informatika',
+            'id_kampus' => '5929fea7-abc2-11ef-80d9-d4dedcb2e875',
+            'id_bidang_ilmu' => 'b62575c4-d863-11ef-a5d6-878b220acde3',
             'tahun_masuk' => '2010',
             'tahun_lulus' => '2014',
             'lulusan' => 'S1',

@@ -33,6 +33,7 @@
   <script src="{{ asset('assets/admin/dist/assets/demo/chart-bar-demo.js') }}"></script>
   <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
   <script src="{{ asset('assets/admin/dist/js/datatables-simple-demo.js') }}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>
     tinymce.init({
       selector: 'textarea',

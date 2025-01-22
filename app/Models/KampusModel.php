@@ -14,4 +14,12 @@ class KampusModel extends Model
     public function kantor() {
         return $this->belongsTo(KantorModel::class, 'id_kampus', 'id_kampus');
     }
+
+    public function perguruan_tinggi() {
+        return $this->hasMany(RiwayatPendidikanModel::class, 'id_kampus', 'id_kampus');
+    }
+
+    public function bidang_ilmu() {
+        return $this->hasMany(BidangIlmuModel::class, 'id_kampus', 'id_kampus');
+    }
 }
