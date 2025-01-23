@@ -36,7 +36,7 @@ Route::middleware('check.login')->group(function() {
     Route::resource('dashboard', DashboardController::class)->only('index');
     Route::resource('profil',ProfilController::class);
     Route::resource('riwayatpendidikan',RiwayatPendidikanController::class);
-    Route::get('get/riwayatpendidikan', [RiwayatPendidikanController::class, 'getData'])->name('riwayatpendidikan.getData');
+        Route::get('get/riwayatpendidikan', [RiwayatPendidikanController::class, 'getData'])->name('riwayatpendidikan.getData');
         Route::get('get/bidang-pendidikan/{id}', [RiwayatPendidikanController::class, 'getBidangPendidikan'])->name('riwayatpendidikan.getBidangPendidikan');
         Route::get('get/jenjang/{id}', [RiwayatPendidikanController::class, 'getJenjang'])->name('riwayatpendidikan.getJenjang');
         Route::get('get/penelitian/pemilik/{id}', [RiwayatPendidikanController::class, 'getPenelitianPemilik'])->name('riwayatpendidikan.getPenelitianPemilik');
@@ -44,11 +44,12 @@ Route::middleware('check.login')->group(function() {
     Route::resource('penelitian',PenelitianController::class);
     Route::resource('pengabdian',PengabdianController::class);
     Route::resource('artikelilmiah',ArtikelIlmiahController::class);
-    Route::get('get/artikel/ilmiah', [ArtikelIlmiahController::class, 'getArtikelIlmiah'])->name('artikelilmiah.getArtikelIlmiah');
+        Route::get('get/artikel/ilmiah', [ArtikelIlmiahController::class, 'getArtikelIlmiah'])->name('artikelilmiah.getArtikelIlmiah');
     Route::resource('seminar',SeminarController::class);
     Route::resource('karyabuku',KaryaBukuController::class);
+        Route::get('get/karya/buku', [KaryaBukuController::class, 'getKaryaBuku'])->name('karyabuku.getKaryaBuku');
     Route::resource('hki',HKIController::class);
-    Route::get('get/hki', [HKIController::class, 'getHKI'])->name('hki.getHKI');
+        Route::get('get/hki', [HKIController::class, 'getHKI'])->name('hki.getHKI');
     Route::resource('penghargaan',PenghargaanController::class);
 });
 
