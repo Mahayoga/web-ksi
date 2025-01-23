@@ -10,7 +10,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 
-use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\StaffController;
 use App\Http\Controllers\RiwayatPendidikanController;
 use App\Http\Controllers\PenelitianController;
 use App\Http\Controllers\PengabdianController;
@@ -34,7 +34,8 @@ Route::resource('login', LoginController::class)->except('destroy');
 
 Route::middleware('check.login')->group(function() {
     Route::resource('dashboard', DashboardController::class)->only('index');
-    Route::resource('profil',ProfilController::class);
+    Route::resource('staff',StaffController::class);
+        Route::get('get/staff', [StaffController::class, 'getStaff'])->name('staff.getStaff');
     Route::resource('riwayatpendidikan',RiwayatPendidikanController::class);
         Route::get('get/riwayatpendidikan', [RiwayatPendidikanController::class, 'getData'])->name('riwayatpendidikan.getData');
         Route::get('get/bidang-pendidikan/{id}', [RiwayatPendidikanController::class, 'getBidangPendidikan'])->name('riwayatpendidikan.getBidangPendidikan');

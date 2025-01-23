@@ -15,7 +15,7 @@
         </a>
         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
           <nav class="sb-sidenav-menu-nested nav">
-            <a class="nav-link" href="{{ route('profil.index') }}">Profil</a>
+            <a class="nav-link" href="{{ route('staff.index') }}">Staff</a>
             <a class="nav-link" href="{{ route('riwayatpendidikan.index') }}">Riwayat Pendidikan</a>
             <a class="nav-link" href="{{ route('penelitian.index') }}">Penelitian</a>
             <a class="nav-link" href="{{ route('pengabdian.index') }}">Pengabdian</a>
@@ -28,7 +28,7 @@
         </div>
 
         <div class="sb-sidenav-menu-heading">Lain-Lain</div>
-        <a class="nav-link" href=".?hal=keluar">
+        <a class="nav-link" href="{{ route('login.destroy') }}">
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
           Keluar
         </a>

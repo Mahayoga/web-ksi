@@ -10,9 +10,23 @@ class StaffModel extends Model
     protected $primaryKey = 'id_staff';
     public $incrementing = false;
     protected $keyType = 'string';
+    protected $fillable = [
+        'id_staff',
+        'nama_lengkap',
+        'gelar',
+        'jenis_kelamin',
+        'jabatan_fungsional',
+        'NIP',
+        'NIDN',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'nomor_telepon',
+        'fax',
+        'id_kantor'
+    ];
 
     public function kantor() {
-        return $this->hasMany(KantorModel::class, 'id_kantor', 'id_kantor');
+        return $this->hasOne(KantorModel::class, 'id_kantor', 'id_kantor');
     }
 
     public function riwayat_pendidikan() {
