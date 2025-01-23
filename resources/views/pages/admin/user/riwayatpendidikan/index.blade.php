@@ -1,6 +1,5 @@
 @extends('layouts.admin.app')
 @section('content')
-  @csrf
   <h1 class="mt-4">Data Riwayat Pendidikan</h1>
   <hr>
   <a href="" onclick="addModalRiwayat()" data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary"><i class="fas fa-add me-2"></i>Tambah Data</a>
@@ -251,6 +250,38 @@
   <script>
     let idEdit = null;
     let idHapus = null;
+    function deleteModalRiwayat(id) {
+      idHapus = id;
+      let xhttp = new XMLHttpRequest();
+      Swal.fire({
+        title: "Apakah anda ingin menghapus data ini?",
+        showDenyButton: true,
+        denyButtonText: `Hapus`,
+        confirmButtonText: "Batal",
+        icon: "question"
+      }).then((result) => {
+        if (result.isDenied) {
+          xhttp.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+              let data = JSON.parse(this.responseText);
+              if(data.status == 'success') {
+                Swal.fire("Berhasil", "Berhasil menghapus data!", "success");
+                ambilData();
+              } else {
+                Swal.fire("Error", "Terjadi error saat menghapus data!\n" + data.msg, "error");
+              }
+            }
+          };
+
+          let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+          let route = "{{ route('riwayatpendidikan.destroy', ['riwayatpendidikan' => 'idHapus']) }}";
+          xhttp.open('DELETE', route.replace('idHapus', idHapus), true);
+          xhttp.setRequestHeader('X-CSRF-TOKEN', token);
+          xhttp.send();
+        }
+      });
+    }
+
     function ambilData() {
       let xhttp = new XMLHttpRequest();
       let tbody = document.querySelector('tbody');
@@ -269,9 +300,9 @@
                 <td>${data.dataBidangIlmu[i].jenjang }</td>
                 <td>${data.dataPembimbing[i].nama_lengkap } ${data.dataPembimbing[i].gelar }</td>
                 <td class="d-flex">
-                  <a href="" class="btn btn-secondary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#showModal" onclick="showModalRiwayat('${ data.dataRiwayat[i].id_riwayat }}')"><i class="fas fa-eye"></i></a>
-                  <a href="" class="btn btn-primary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editModalRiwayat('${ data.dataRiwayat[i].id_riwayat }}')"><i class="fas fa-edit"></i></a>
-                  <a href="" class="btn btn-danger p-2 mx-1" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteModalRiwayat('${ data.dataRiwayat[i].id_riwayat }}')"><i class="fas fa-trash-can"></i></a>
+                  <a href="" class="btn btn-secondary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#showModal" onclick="showModalRiwayat('${ data.dataRiwayat[i].id_riwayat }')"><i class="fas fa-eye"></i></a>
+                  <a href="" class="btn btn-primary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editModalRiwayat('${ data.dataRiwayat[i].id_riwayat }')"><i class="fas fa-edit"></i></a>
+                  <a href="" class="btn btn-danger p-2 mx-1" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteModalRiwayat('${ data.dataRiwayat[i].id_riwayat }')"><i class="fas fa-trash-can"></i></a>
                 </td>
               </tr>
             `;
@@ -295,7 +326,7 @@
       let dataGelar = document.getElementById('gelar-add').value;
       let dataPenelitian = document.getElementById('penelitian-add').value;
       let dataPembimbing = document.getElementById('pembimbing-add').value;
-      let token = document.getElementsByName('_token')[0].value;
+      let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
       formData.append('pemilik', dataPemilik);
       formData.append('kampus', dataKampus);
@@ -305,7 +336,7 @@
       formData.append('gelar', dataGelar);
       formData.append('penelitian', dataPenelitian);
       formData.append('pembimbing', dataPembimbing);
-      formData.append('_token', token);
+      // formData.append('_token', token);
 
       xhttp.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200) {
@@ -328,6 +359,7 @@
       };
 
       xhttp.open('POST', '{{ route("riwayatpendidikan.store") }}', true);
+      xhttp.setRequestHeader('X-CSRF-TOKEN', token);
       xhttp.send(formData);
     }
 
@@ -407,7 +439,6 @@
               let optionBidangIlmu = document.getElementById('nama_bidang_ilmu-add');
               optionBidangIlmu.innerHTML = `<option value="not-selected" selected>--Pilih--</option>`;
               optionBidangIlmu.removeAttribute('disabled');
-              console.log(data.dataBidangIlmu);
               data.dataBidangIlmu.forEach(element => {
                 optionBidangIlmu.innerHTML += `
                   <option value="${element.id_bidang_ilmu}">${element.nama_bidang_ilmu}</option>
@@ -494,7 +525,7 @@
       let dataGelar = document.getElementById('gelar-edit').value;
       let dataPenelitian = document.getElementById('penelitian-edit').value;
       let dataPembimbing = document.getElementById('pembimbing-edit').value;
-      let token = document.getElementsByName('_token')[0].value;
+      let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
       formData.append('pemilik', dataPemilik);
       formData.append('kampus', dataKampus);
@@ -504,7 +535,7 @@
       formData.append('gelar', dataGelar);
       formData.append('penelitian', dataPenelitian);
       formData.append('pembimbing', dataPembimbing);
-      formData.append('_token', token);
+      formData.append('_method', 'PATCH');
 
       xhttp.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200) {
@@ -526,9 +557,10 @@
         }
       };
 
-      let route = '{{ route("riwayatpendidikan.update", ["riwayatpendidikan" => "__ID__"]) }}';
-
-      xhttp.open('POST', route.replace('__ID__', idEdit), true);
+      
+      let route = '{{ route("riwayatpendidikan.update", ["riwayatpendidikan" => "idEdit"]) }}';
+      xhttp.open('POST', route.replace('idEdit', idEdit), true);
+      xhttp.setRequestHeader('X-CSRF-TOKEN', token);
       xhttp.send(formData);
     }
 
@@ -565,7 +597,7 @@
 
       let route = "{{ route('riwayatpendidikan.getPenelitianPemilik', ['id' => '__ID__']) }}"
 
-      xhttp.open('GET', route.replace('__ID__', pemilikRiwayat.value), true);
+      xhttp.open('GET', route.replace('__ID__', pemilikRiwayat.value), false);
       xhttp.send();
     }
 
@@ -608,7 +640,6 @@
               let optionBidangIlmu = document.getElementById('nama_bidang_ilmu-edit');
               optionBidangIlmu.innerHTML = `<option value="not-selected" selected>--Pilih--</option>`;
               optionBidangIlmu.removeAttribute('disabled');
-              console.log(data.dataBidangIlmu);
               data.dataBidangIlmu.forEach(element => {
                 optionBidangIlmu.innerHTML += `
                   <option value="${element.id_bidang_ilmu}">${element.nama_bidang_ilmu}</option>
@@ -678,7 +709,7 @@
 
       let route = "{{ route('riwayatpendidikan.getPembimbingNot', ['id' => '__ID__']) }}"
 
-      xhttp.open('GET', route.replace('__ID__', pemilik.value), true);
+      xhttp.open('GET', route.replace('__ID__', pemilik.value), false);
       xhttp.send();
     }
 
@@ -688,7 +719,6 @@
       xhttp.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200) {
           let data = JSON.parse(this.responseText);
-          console.log(data);
 
           document.getElementById('nama_pemilik').innerText = data.dataPemilik.nama_lengkap;
           document.getElementById('nama_perguruan_tinggi').innerText = data.dataKampus.nama_kampus;
@@ -737,9 +767,6 @@
       let xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200) {
-          getBidangIlmuEdit();
-          setPenelitianEdit();
-          getPembimbingEdit();
           let data = JSON.parse(this.responseText);
           let optionPemilikRiwayat = document.getElementById('pemilik_riwayat-edit');
           let optionKampus = document.getElementById('nama_perguruan_tinggi-edit');
@@ -749,22 +776,47 @@
           let optionGelar = document.getElementById('gelar-edit');
           let optionPenelitian = document.getElementById('penelitian-edit');
           let optionPembimbing = document.getElementById('pembimbing-edit');
-          let token = document.getElementsByName('_token')[0];
 
           optionPemilikRiwayat.innerHTML = `<option value="${data.dataPemilik.id_staff}" selected>${data.dataPemilik.nama_lengkap}</option>`;
           optionKampus.innerHTML = `<option value="${data.dataKampusEdit.id_kampus}" selected>${data.dataKampusEdit.nama_kampus}</option>`;
           optionBidangilmu.innerHTML = `<option value="${data.dataBidangIlmuEdit.id_bidang_ilmu}" selected>${data.dataBidangIlmuEdit.nama_bidang_ilmu}</option>`;
-          optionTahunMasuk.innerHTML = `<option value="${data.dataRiwayat.tahun_masuk}" selected>${data.dataRiwayat.tahun_masuk}</option>`;
-          optionTahunLulus.innerHTML = `<option value="${data.dataRiwayat.tahun_lulus}" selected>${data.dataRiwayat.tahun_lulus}</option>`;
-          optionGelar.innerHTML = `<option value="${data.dataBidangIlmuEdit.id_bidang_ilmu}" selected>${data.dataBidangIlmuEdit.jenjang}</option>`;
-          optionPenelitian.innerHTML = `<option value="${data.dataPenelitianEdit.id_penelitian}" selected>${data.dataPenelitianEdit.judul_penelitian}</option>`;
-          optionPembimbing.innerHTML = `<option value="${data.dataPembimbingEdit.id_staff}" selected>${data.dataPembimbingEdit.nama_lengkap} ${data.dataPembimbingEdit.gelar}</option>`;
+          optionGelar.value = `${data.dataBidangIlmuEdit.jenjang}`;
 
           data.dataKampus.forEach(element => {
             optionKampus.innerHTML += `
               <option value="${element.id_kampus}">${element.nama_kampus}</option>
             `;
           });
+          data.dataIlmu.forEach(element => {
+            optionBidangilmu.innerHTML += `
+              <option value="${element.id_bidang_ilmu}">${element.nama_bidang_ilmu}</option>
+            `;
+          });          
+
+          for(var i = 0; i < optionTahunMasuk.querySelectorAll('option').length; i++) {
+            if(optionTahunMasuk.querySelectorAll('option')[i].value == data.dataRiwayat.tahun_masuk) {
+              optionTahunMasuk.querySelectorAll('option')[i].setAttribute('selected', '');
+              setTahunLulusEdit();
+              for(var i = 0; i < optionTahunLulus.querySelectorAll('option').length; i++) {
+                if(optionTahunLulus.querySelectorAll('option')[i].value == data.dataRiwayat.tahun_lulus) {
+                  optionTahunLulus.querySelectorAll('option')[i].setAttribute('selected', '');
+                }
+              }
+            }
+          }
+
+          setPenelitianEdit();
+          getPembimbingEdit();
+          for(var i = 0; i < optionPenelitian.querySelectorAll('option').length; i++) {
+            if(optionPenelitian.querySelectorAll('option')[i].value == data.dataPenelitianEdit.id_penelitian) {
+              optionPenelitian.querySelectorAll('option')[i].setAttribute('selected', '');
+            }
+          }
+          for(var i = 0; i < optionPembimbing.querySelectorAll('option').length; i++) {
+            if(optionPembimbing.querySelectorAll('option')[i].value == data.dataPembimbingEdit.id_staff) {
+              optionPembimbing.querySelectorAll('option')[i].setAttribute('selected', '');
+            }
+          }
         }
       };
 

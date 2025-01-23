@@ -106,7 +106,6 @@ class RiwayatPendidikanController extends Controller
             $dataBidangIlmu[] = $item->bidang_ilmu;
             $dataKampus[] = $item->kampus;
         }
-        // dd($dataBidangIlmu);
         return view('pages.admin.user.riwayatpendidikan.index', 
         compact(
             'dataRiwayat',
@@ -201,22 +200,21 @@ class RiwayatPendidikanController extends Controller
             ->where('id_kampus', '!=', $dataRiwayat->id_kampus)
             ->get();
         $dataIlmu = $dataRiwayat->bidang_ilmu;
-        $dataPenelitian = $dataRiwayat->penelitian;;
-        $dataPembimbing = $dataRiwayat->pembimbing;
+        $dataPenelitianEdit = $dataRiwayat->penelitian;
+        $dataPembimbingEdit = $dataRiwayat->pembimbing;
         return response()->json([
             'dataRiwayat' => $dataRiwayat,
             'dataPemilik' => $dataPemilik,
             'dataKampusEdit' => $dataRiwayat->kampus,
             'dataBidangIlmuEdit' => $dataRiwayat->bidang_ilmu,
-            'dataPenelitianEdit' => $dataPenelitian,
-            'dataPembimbingEdit' => $dataPembimbing,
+            'dataPenelitianEdit' => $dataPenelitianEdit,
+            'dataPembimbingEdit' => $dataPembimbingEdit,
 
             'dataKampus' => $dataKampus,
             'dataIlmu' => BidangIlmuModel::select()
                 ->where('id_bidang_ilmu', '!=', $dataRiwayat->id_bidang_ilmu)
+                ->where('id_kampus', '=', $dataRiwayat->id_kampus)
                 ->get(),
-            'dataPenelitian' => $dataPenelitian,
-            'dataPembimbing' => $dataPembimbing
         ]);
     }
 
@@ -225,7 +223,39 @@ class RiwayatPendidikanController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validate = $request->validate([
+            'pemilik' => ['required', 'uuid'],
+            'kampus' => ['required', 'uuid'],
+            'bidangIlmu' => ['required', 'uuid'],
+            'tahunMasuk' => ['required', 'integer'],
+            'tahunLulus' => ['required', 'integer'],
+            'gelar' => ['required', 'string'],
+            'penelitian' => ['required', 'uuid'],
+            'pembimbing' => ['required', 'uuid'],
+        ]);
+
+        try {
+            $dataRiwayat = RiwayatPendidikanModel::find($id);
+            $dataRiwayat->update([
+                'id_riwayat' => $id,
+                'id_kampus' => $request->kampus,
+                'id_bidang_ilmu' => $request->bidangIlmu,
+                'tahun_masuk' => $request->tahunMasuk,
+                'tahun_lulus' => $request->tahunLulus,
+                'lulusan' => $request->gelar,
+                'id_penelitian' => $request->penelitian,
+                'id_staff_pembimbing' => $request->pembimbing,
+                'id_staff_pemilik' => $request->pemilik,
+            ]);
+            return response()->json([
+                'status' => 'success'
+            ]);
+        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => $e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -233,6 +263,16 @@ class RiwayatPendidikanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            RiwayatPendidikanModel::destroy($id);
+            return response()->json([
+                'status' => 'success'
+            ]);
+        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => $e->getMessage()
+            ]);
+        }
     }
 }
