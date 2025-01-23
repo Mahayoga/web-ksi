@@ -2,16 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SeminarModel;
+use App\Models\StaffModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SeminarController extends Controller
 {
+
+    public function getSeminar() {
+        $dataSeminar = SeminarModel::select()->get();
+        $dataStaff = [];
+        foreach($dataSeminar as $item) {
+            $dataStaff[] = $item->staff;
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'dataSeminar' => $dataSeminar,
+            'dataStaff' => $dataStaff,
+        ]);
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $dataSeminar = SeminarModel::select()->get();
+        $dataStaff = [];
+        foreach($dataSeminar as $item) {
+            $dataStaff[] = $item->staff;
+        }
+
+        return view('pages.admin.user.seminar.index', compact('dataSeminar', 'dataStaff'));
     }
 
     /**
@@ -19,7 +42,12 @@ class SeminarController extends Controller
      */
     public function create()
     {
-        //
+        $dataStaff = StaffModel::select()->get();
+
+        return response()->json([
+            'status' => 'success',
+            'dataStaff' => $dataStaff
+        ]);
     }
 
     /**
@@ -27,7 +55,35 @@ class SeminarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'nama_pemilik' => ['required', 'uuid'],
+            'nama_pertemuan' => ['required', 'string'],
+            'judul_seminar' => ['required', 'string'],
+            'tahun' => ['required', 'integer'],
+            'tempat' => ['required', 'string'],
+            'link_seminar' => ['required', 'string'],
+        ]);
+
+        try {
+            $dataUUID = DB::select('SELECT UUID() as hehe')[0]->hehe;
+            SeminarModel::create([
+                'id_seminar' => $dataUUID,
+                'nama_pertemuan' => $request->nama_pertemuan,
+                'judul_seminar' => $request->judul_seminar,
+                'tahun' => $request->tahun,
+                'tempat' => $request->tempat,
+                'link_seminar' => $request->link_seminar,
+                'id_staff' => $request->nama_pemilik,
+            ]);
+            return response()->json([
+                'status' => 'success',
+            ]);
+        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => $e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -35,7 +91,14 @@ class SeminarController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $dataSeminar = SeminarModel::find($id);
+        $dataStaff = $dataSeminar->staff;
+
+        return response()->json([
+            'status' => 'success',
+            'dataSeminar' => $dataSeminar,
+            'dataStaff' => $dataStaff,
+        ]);
     }
 
     /**
@@ -43,7 +106,14 @@ class SeminarController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $dataSeminar = SeminarModel::find($id);
+        $dataStaff = $dataSeminar->staff;
+
+        return response()->json([
+            'status' => 'success',
+            'dataSeminar' => $dataSeminar,
+            'dataStaff' => $dataStaff
+        ]);
     }
 
     /**
@@ -51,7 +121,34 @@ class SeminarController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validate = $request->validate([
+            'nama_pemilik' => ['required', 'uuid'],
+            'nama_pertemuan' => ['required', 'string'],
+            'judul_seminar' => ['required', 'string'],
+            'tahun' => ['required', 'integer'],
+            'tempat' => ['required', 'string'],
+            'link_seminar' => ['required', 'string'],
+        ]);
+
+        try {
+            $dataSeminar = SeminarModel::find($id);
+            $dataSeminar->update([
+                'nama_pertemuan' => $request->nama_pertemuan,
+                'judul_seminar' => $request->judul_seminar,
+                'tahun' => $request->tahun,
+                'tempat' => $request->tempat,
+                'link_seminar' => $request->link_seminar,
+                'id_staff' => $request->nama_pemilik,
+            ]);
+            return response()->json([
+                'status' => 'success',
+            ]);
+        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => $e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -59,6 +156,16 @@ class SeminarController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            SeminarModel::destroy($id);
+            return response()->json([
+                'status' => 'success'
+            ]);
+        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => $e->getMessage()
+            ]);
+        }
     }
 }
