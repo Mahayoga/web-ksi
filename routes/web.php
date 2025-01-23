@@ -42,6 +42,7 @@ Route::middleware('check.login')->group(function() {
         Route::get('get/penelitian/pemilik/{id}', [RiwayatPendidikanController::class, 'getPenelitianPemilik'])->name('riwayatpendidikan.getPenelitianPemilik');
         Route::get('get/pembimbing/not/{id}', [RiwayatPendidikanController::class, 'getPembimbingNot'])->name('riwayatpendidikan.getPembimbingNot');
     Route::resource('penelitian',PenelitianController::class);
+        Route::get('/get/penelitian', [PenelitianController::class, 'getPenelitian'])->name('penelitian.getPenelitian');
     Route::resource('pengabdian',PengabdianController::class);
     Route::resource('artikelilmiah',ArtikelIlmiahController::class);
         Route::get('get/artikel/ilmiah', [ArtikelIlmiahController::class, 'getArtikelIlmiah'])->name('artikelilmiah.getArtikelIlmiah');
