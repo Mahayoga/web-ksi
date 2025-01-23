@@ -22,4 +22,8 @@ class KampusModel extends Model
     public function bidang_ilmu() {
         return $this->hasMany(BidangIlmuModel::class, 'id_kampus', 'id_kampus');
     }
+
+    public function penghargaan() {
+        return $this->hasMany(BidangIlmuModel::class, 'id_kampus', 'id_kampus');
+    }
 }

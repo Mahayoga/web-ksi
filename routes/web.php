@@ -53,6 +53,7 @@ Route::middleware('check.login')->group(function() {
     Route::resource('hki',HKIController::class);
         Route::get('get/hki', [HKIController::class, 'getHKI'])->name('hki.getHKI');
     Route::resource('penghargaan',PenghargaanController::class);
+        Route::get('get/penghargaan', [PenghargaanController::class, 'getPenghargaan'])->name('penghargaan.getPenghargaan');
 });
 
 Route::resource('search', SearchController::class)->except('index');
