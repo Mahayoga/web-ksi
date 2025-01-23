@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 @section('content')
   @csrf
-  <h1 class="mt-4">Data Pengabdian</h1>
+  <h1 class="mt-4">Data Penghargaan</h1>
   <hr>
   <a href="" onclick="addModal()" data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary"><i class="fas fa-add me-2"></i>Tambah Data</a>
   <div class="card-body">
@@ -48,7 +48,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Pengabdian</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Penghargaan</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -95,7 +95,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Pengabdian</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Penghargaan</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -147,7 +147,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Data Pengabdian</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Data Penghargaan</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
