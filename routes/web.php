@@ -44,6 +44,7 @@ Route::middleware('check.login')->group(function() {
     Route::resource('penelitian',PenelitianController::class);
     Route::resource('pengabdian',PengabdianController::class);
     Route::resource('artikelilmiah',ArtikelIlmiahController::class);
+    Route::get('get/artikel/ilmiah', [ArtikelIlmiahController::class, 'getArtikelIlmiah'])->name('artikelilmiah.getArtikelIlmiah');
     Route::resource('seminar',SeminarController::class);
     Route::resource('karyabuku',KaryaBukuController::class);
     Route::resource('hki',HKIController::class);
