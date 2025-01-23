@@ -2,16 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PengabdianModel;
+use App\Models\StaffModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PengabdianController extends Controller
 {
+
+    public function getPengabdian() {
+        $dataPengabdian = PengabdianModel::select()->get();
+        $dataStaff = [];
+        foreach($dataPengabdian as $item) {
+            $dataStaff[] = $item->staff;
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'dataPengabdian' => $dataPengabdian,
+            'dataStaff' => $dataStaff
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $dataPengabdian = PengabdianModel::select()->get();
+        $dataStaff = [];
+        foreach($dataPengabdian as $item) {
+            $dataStaff[] = $item->staff;
+        }
+
+        return view('pages.admin.user.pengabdian.index', compact('dataPengabdian', 'dataStaff'));
     }
 
     /**
@@ -19,7 +43,12 @@ class PengabdianController extends Controller
      */
     public function create()
     {
-        //
+        $dataStaff = StaffModel::select()->get();
+
+        return response()->json([
+            'status' => 'success',
+            'dataStaff' => $dataStaff
+        ]);
     }
 
     /**
@@ -27,7 +56,31 @@ class PengabdianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'nama_pemilik' => ['required', 'uuid'],
+            'judul_pengabdian' => ['required', 'string'],
+            'sumber_pendanaan' => ['required', 'string'],
+            'tahun' => ['required', 'integer'],
+        ]);
+
+        try {
+            $dataUUID = DB::select('SELECT UUID() as hehe')[0]->hehe;
+            PengabdianModel::create([
+                'id_pengabdian' => $dataUUID,
+                'id_staff' => $request->nama_pemilik,
+                'judul_pengabdian' => $request->judul_pengabdian,
+                'sumber_pendanaan' => $request->sumber_pendanaan,
+                'tahun' => $request->tahun,
+            ]);
+            return response()->json([
+                'status' => 'success'
+            ]);
+        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => $e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -35,7 +88,14 @@ class PengabdianController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $dataPengabdian = PengabdianModel::find($id);
+        $dataStaff = $dataPengabdian->staff;
+
+        return response()->json([
+            'status' => 'success',
+            'dataPengabdian' => $dataPengabdian,
+            'dataStaff' => $dataStaff
+        ]);
     }
 
     /**
@@ -43,7 +103,14 @@ class PengabdianController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $dataPengabdian = PengabdianModel::find($id);
+        $dataStaff = $dataPengabdian->staff;
+
+        return response()->json([
+            'status' => 'success',
+            'dataPengabdian' => $dataPengabdian,
+            'dataStaff' => $dataStaff,
+        ]);
     }
 
     /**
@@ -51,7 +118,30 @@ class PengabdianController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validate = $request->validate([
+            'nama_pemilik' => ['required', 'uuid'],
+            'judul_pengabdian' => ['required', 'string'],
+            'sumber_pendanaan' => ['required', 'string'],
+            'tahun' => ['required', 'integer'],
+        ]);
+
+        try {
+            $dataPengabdian = PengabdianModel::find($id);
+            $dataPengabdian->update([
+                'id_staff' => $request->nama_pemilik,
+                'judul_pengabdian' => $request->judul_pengabdian,
+                'sumber_pendanaan' => $request->sumber_pendanaan,
+                'tahun' => $request->tahun,
+            ]);
+            return response()->json([
+                'status' => 'success'
+            ]);
+        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => $e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -59,6 +149,16 @@ class PengabdianController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            PengabdianModel::destroy($id);
+            return response()->json([
+                'status' => 'success'
+            ]);
+        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => $e->getMessage()
+            ]);
+        }
     }
 }
