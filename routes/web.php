@@ -48,6 +48,7 @@ Route::middleware('check.login')->group(function() {
     Route::resource('seminar',SeminarController::class);
     Route::resource('karyabuku',KaryaBukuController::class);
     Route::resource('hki',HKIController::class);
+    Route::get('get/hki', [HKIController::class, 'getHKI'])->name('hki.getHKI');
     Route::resource('penghargaan',PenghargaanController::class);
 });
 

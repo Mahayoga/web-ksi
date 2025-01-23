@@ -2,16 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\HKIModel;
+use App\Models\StaffModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HKIController extends Controller
 {
+
+    public function getHKI() {
+        $dataHKI = HKIModel::select()->get();
+        $dataStaff = [];
+        foreach($dataHKI as $item) {
+            $dataStaff[] = $item->staff;
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'dataHKI' => $dataHKI,
+            'dataStaff' => $dataStaff
+        ]);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $dataHKI = HKIModel::select()->get();
+        $dataStaff = [];
+        foreach($dataHKI as $item) {
+            $dataStaff[] = $item->staff;
+        }
+        return view('pages.admin.user.hki.index', compact('dataHKI', 'dataStaff'));
     }
 
     /**
@@ -19,7 +42,12 @@ class HKIController extends Controller
      */
     public function create()
     {
-        //
+        $dataStaff = StaffModel::select()->get();
+
+        return response()->json([
+            'status' => 'success',
+            'dataStaff' => $dataStaff
+        ]);
     }
 
     /**
@@ -27,7 +55,36 @@ class HKIController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'nama_pemilik' => ['required', 'uuid'],
+            'judul_hki' => ['required', 'string'],
+            'tanggal' => ['required', 'date'],
+            'jenis' => ['required', 'string'],
+            'nomor_p' => ['required', 'string'],
+            'nomor_id' => ['required', 'string'],
+            'link_hki' => ['required', 'string'],
+        ]);
+        try {
+            $dataUUID = DB::select('SELECT UUID() as hehe')[0]->hehe;
+            HKIModel::create([
+                'id_hki' => $dataUUID,
+                'id_staff' => $request->nama_pemilik,
+                'judul_hki' => $request->judul_hki,
+                'tanggal' => $request->tanggal,
+                'jenis' => $request->jenis,
+                'nomor_p' => $request->nomor_p,
+                'nomor_id' => $request->nomor_id,
+                'link_hki' => $request->link_hki,
+            ]);
+            return response()->json([
+                'status' => 'success'
+            ]);
+        } catch(\Exception $exception) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => $exception->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -35,7 +92,14 @@ class HKIController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $dataHKI = HKIModel::find($id);
+        $dataStaff = $dataHKI->staff;
+
+        return response()->json([
+            'status' => 'success',
+            'dataHKI' => $dataHKI,
+            'dataStaff' => $dataStaff
+        ]);
     }
 
     /**
@@ -43,7 +107,14 @@ class HKIController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $dataHKI = HKIModel::find($id);
+        $dataStaff = $dataHKI->staff;
+
+        return response()->json([
+            'status' => 'success',
+            'dataHKI' => $dataHKI,
+            'dataStaff' => $dataStaff
+        ]);
     }
 
     /**
@@ -51,7 +122,35 @@ class HKIController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validate = $request->validate([
+            'nama_pemilik' => ['required', 'uuid'],
+            'judul_hki' => ['required', 'string'],
+            'tanggal' => ['required', 'date'],
+            'jenis' => ['required', 'string'],
+            'nomor_p' => ['required', 'string'],
+            'nomor_id' => ['required', 'string'],
+            'link_hki' => ['required', 'string'],
+        ]);
+        try {
+            $dataHKI = HKIModel::find($id);
+            $dataHKI->update([
+                'id_staff' => $request->nama_pemilik,
+                'judul_hki' => $request->judul_hki,
+                'tanggal' => $request->tanggal,
+                'jenis' => $request->jenis,
+                'nomor_p' => $request->nomor_p,
+                'nomor_id' => $request->nomor_id,
+                'link_hki' => $request->link_hki,
+            ]);
+            return response()->json([
+                'status' => 'success'
+            ]);
+        } catch(\Exception $exception) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => $exception->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -59,6 +158,16 @@ class HKIController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            HKIModel::destroy($id);
+            return response()->json([
+                'status' => 'success'
+            ]);
+        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => $e->getMessage()
+            ]);
+        }
     }
 }
