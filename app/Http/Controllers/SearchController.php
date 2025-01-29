@@ -58,7 +58,7 @@ class SearchController extends Controller
     public function show(string $id)
     {
         $dataStaff = StaffModel::find($id);
-        $dataKampus = KantorModel::find($dataStaff->kantor[0]->id_kantor);
+        $dataKampus = $dataStaff->kantor;
         $dataRiwayatPendidikan = $dataStaff->riwayat_pendidikan;
         $dataPenelitian = $dataStaff->penelitian;
         $dataPengabdian = $dataStaff->pengabdian;

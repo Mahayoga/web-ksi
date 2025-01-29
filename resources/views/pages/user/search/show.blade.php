@@ -30,7 +30,7 @@
                   <span class="material-symbols-outlined">domain</span>
                 </div>
                 <div class="col-md-11 ps-0">
-                  <span>{{ $dataStaff->kantor[0]->nama_kantor }}</span>
+                  <span>{{ $dataStaff->kantor->nama_kantor }}</span>
                 </div>
               </div>
               <div class="row text-primary-emphasis fw-light">
@@ -38,7 +38,7 @@
                   <span class="material-symbols-outlined">location_on</span>
                 </div>
                 <div class="col-md-11 ps-0">
-                  <span>{{ $dataStaff->kantor[0]->nama_kantor }}, {{ $dataKampus->kampus[0]->nama_kampus }}, {{ $dataStaff->kantor[0]->alamat_kantor }}</span>
+                  <span>{{ $dataStaff->kantor->nama_kantor }}, {{ $dataKampus->nama_kampus }}, {{ $dataStaff->kantor->alamat_kantor }}</span>
                 </div>
               </div>
               <div class="row text-primary-emphasis fw-light">
@@ -46,7 +46,7 @@
                   <span class="material-symbols-outlined">mail</span>
                 </div>
                 <div class="col-md-11 ps-0">
-                  <span>{{ $dataStaff->email_staff }}</span>
+                  <span>{{ $dataStaff->users->email }}</span>
                 </div>
               </div>
             </div>
@@ -84,7 +84,7 @@
           <div class="card-body fw-light">
             @foreach ($dataRiwayatPendidikan as $item)
               <div>
-                {{ $item->lulusan }} {{ $item->bidang_ilmu }}, {{ $item->nama_perguruan_tinggi }} ({{ $item->tahun_masuk }} - {{ $item->tahun_lulus }})
+                {{ $item->lulusan }} {{ $item->bidang_ilmu->nama_bidang_ilmu }}, {{ $item->nama_perguruan_tinggi }} ({{ $item->tahun_masuk }} - {{ $item->tahun_lulus }})
               </div>
             @endforeach
           </div>
@@ -182,7 +182,7 @@
           <div class="card-body fw-light">
             @foreach ($dataPenghargaan as $item)
               <div>
-                {{ $item->jenis_penghargaan }}, {{ $item->penghargaan }} - {{ $item->pemberi }} ({{ $item->tahun }})
+                {{ $item->jenis_penghargaan }}, {{ $item->penghargaan }} - {{ $item->kampus->nama_kampus }} ({{ $item->tahun }})
               </div>
             @endforeach
           </div>
