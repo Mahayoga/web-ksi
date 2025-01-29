@@ -3,10 +3,10 @@
 @section('content')
   <!-- Hero Section -->
   <section id="hero" class="hero section light-background">
-    <img src="{{ asset('assets/img/hero-bg.jpg') }}" style="opacity: 0.5" alt="" data-aos="fade-in">
+    <img src="{{ asset('assets/img/hero-bg.webp') }}" style="opacity: 0.5" alt="" data-aos="fade-in">
     <div class="container position-relative">
       <div class="welcome position-relative" data-aos="fade-down" data-aos-delay="100">
-        <div class="w-100" style="background-image: url({{ asset('assets/img/logo.png') }}); background-size: cover; min-height: 220px; background-repeat: no-repeat; background-position: center;"></div>
+        <div class="w-100" style="background-image: url({{ asset('assets/img/logo.png') }}); background-size: cover; min-height: 300px; background-repeat: no-repeat; background-position: center;"></div>
         <h2 class="text-center">Lab Komputasi Sistem Informasi</h2>
       </div><!-- End Welcome -->
 
