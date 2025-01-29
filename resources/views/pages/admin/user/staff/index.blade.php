@@ -57,7 +57,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Seminar</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Staff</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -139,7 +139,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Seminar</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data Staff</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -243,7 +243,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Data Seminar</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Edit Data Staff</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -639,7 +639,11 @@
 
             fieldPemilik.innerText = data.dataStaff.nama_lengkap;
             fieldGelar.innerText = data.dataStaff.gelar;
-            fieldKelamin.innerText = data.dataStaff.jenis_kelamin;
+            if(data.dataStaff.jenis_kelamin == 'l') {
+              fieldKelamin.innerText = 'Laki-Laki';
+            } else {
+              fieldKelamin.innerText = 'Perempuan';
+            }
             fieldJabatan.innerText = data.dataStaff.jabatan_fungsional;
             fieldNIP.innerText = data.dataStaff.NIP;
             fieldNIDN.innerText = data.dataStaff.NIDN;

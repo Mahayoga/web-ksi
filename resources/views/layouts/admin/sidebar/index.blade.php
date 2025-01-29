@@ -4,8 +4,12 @@
       <div class="nav">
         <div class="sb-sidenav-menu-heading">Menu</div>
         <a class="nav-link" href=".?hal=beranda">
-          <div class="sb-nav-link-icon"><i class="fas fa-dashboard"></i></div>
+          <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
           Beranda
+        </a>
+        <a class="nav-link" href="{{ route('dashboard.index') }}">
+          <div class="sb-nav-link-icon"><i class="fas fa-dashboard"></i></div>
+          Dashboard
         </a>
         <div class="sb-sidenav-menu-heading">Data</div>
         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
