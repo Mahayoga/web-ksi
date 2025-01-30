@@ -46,28 +46,86 @@
             to {border: var(--bs-card-border-width) solid var(--bs-border-color-translucent);}
           }
         </style>
-        @foreach ($resultData as $item)
-          <div class="col-md-4">
-            <a href="{{ route('search.show', ['search' => $item['dataStaff']->id_staff]) }}">
-              <div class="card shadow">
-                <div class="card-body d-flex">
-                  <div class="col-md-3 me-2">
-                    <img src="{{ asset('assets/img/staff/khafid.png') }}" alt="profil" class="rounded-circle w-100">
-                  </div>
-                  <div class="col-md-9">
-                    <p class="fs-6 m-0 text-primary-emphasis fw-bold">{{ $item['dataStaff']->nama_lengkap }}, {{ $item['dataStaff']->gelar }}</p>
-                    <p class="fs-6">Information Technology</p>
-                    <p class="fs-6 m-0 text-primary-emphasis fw-light">{{ $item['dataPublikasi']->jumlah }} Publication {{ $item['dataPaten']->jumlah }} Patent/IP</p>
-                    <p class="fs-6 m-0 text-primary-emphasis fw-light">{{ $item['dataPrototipe']['jumlah'] }} Prototype {{ $item['dataPenelitian']->jumlah }} Research</p>
-                    <p class="fs-6 text-primary-emphasis fw-light">{{ $item['dataPengabdian']->jumlah }} Community Service</p>
-                  </div>
+        <div class="row">
+          <div class="col-md-9">
+            <div class="row">
+              @foreach ($resultData as $item)
+                <div class="col-md-4 filter-item" check-label="{{ $item['dataStaff']->id_kantor }}">
+                  <a href="{{ route('search.show', ['search' => $item['dataStaff']->id_staff]) }}">
+                    <div class="card shadow">
+                      <div class="card-body d-flex">
+                        <div class="col-md-2 me-2">
+                          <img src="{{ asset('assets/img/staff/khafid.png') }}" alt="profil" class="rounded-circle w-100">
+                        </div>
+                        <div class="col-md-9">
+                          <p class="fs-6 m-0 text-primary-emphasis fw-bold">{{ $item['dataStaff']->nama_lengkap }}, {{ $item['dataStaff']->gelar }}</p>
+                          <p class="fs-6">Information Technology</p>
+                          <p class="fs-6 m-0 text-primary-emphasis fw-light">{{ $item['dataPublikasi']->jumlah }} Publication {{ $item['dataPaten']->jumlah }} Patent/IP</p>
+                          <p class="fs-6 m-0 text-primary-emphasis fw-light">{{ $item['dataPrototipe']['jumlah'] }} Prototype {{ $item['dataPenelitian']->jumlah }} Research</p>
+                          <p class="fs-6 text-primary-emphasis fw-light">{{ $item['dataPengabdian']->jumlah }} Community Service</p>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
                 </div>
-              </div>
-            </a>
+              @endforeach
+            </div>
           </div>
-        @endforeach
+          <div class="col-md-3">
+            <div class="card">
+              <div class="card-header">Filter</div>
+              <div class="card-body">
+                <div class="form-check">
+                  <label for="" class="form-check-label">Semua {{ count($resultData) }} </label>
+                  <input type="radio" name="filter-radio" id="default-filter" class="form-check-input filter-radio" onclick="filterCheck()" checked>
+                </div>
+                @foreach ($dataKantor as $item)
+                  <div class="form-check">
+                    <label for="" class="form-check-label">{{ $item->nama_kantor }} ({{ $item->jumlah }})</label>
+                    <input type="radio" name="filter-radio" id="" class="form-check-input filter-radio" check-label="{{ $item->id_kantor }}" onclick="filterCheck()">
+                  </div>
+                @endforeach
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
   </section><!-- /Starter Section Section -->
+
+  <script>
+    function filterCheck() {
+      let filterCheckBox = document.querySelectorAll('.filter-radio');
+      let filterItem = document.querySelectorAll('.filter-item');
+      let defaultFilter = document.getElementById('default-filter');
+      let isFound = false;
+
+      if(defaultFilter.checked) {
+        filterItem.forEach(element => {
+          element.classList.remove('d-none');
+        });
+        return 0;
+      }
+
+      filterCheckBox.forEach(element => {
+        if(element.checked) {
+          filterItem.forEach(item => {
+            if(element.getAttribute('check-label') == item.getAttribute('check-label')) {
+              isFound = true;
+              item.classList.remove('d-none');
+            } else {
+              item.classList.add('d-none');
+            }
+          });
+        }
+      });
+
+      if(!isFound) {
+        filterItem.forEach(element => {
+          element.classList.remove('d-none');
+        });
+      }
+    }
+    filterCheck();
+  </script>
 @endsection
