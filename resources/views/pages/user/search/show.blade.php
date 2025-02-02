@@ -20,7 +20,7 @@
         <div class="card-body">
           <div class="row p-3">
             <div class="col-md-2">
-              <img src="{{ asset('assets/img/staff/khafid.png') }}" alt="profil" class="w-100">
+              <img src="{{ asset('storage/' . $dataStaff->profile_image) }}" alt="profil" class="w-100">
             </div>
             <div class="col-md-7">
               <p class="fs-4 text-primary-emphasis fw-bold">{{ $dataStaff->nama_lengkap }}, {{ $dataStaff->gelar }}</p>
@@ -38,7 +38,7 @@
                   <span class="material-symbols-outlined">location_on</span>
                 </div>
                 <div class="col-md-11 ps-0">
-                  <span>{{ $dataStaff->kantor->nama_kantor }}, {{ $dataKampus->nama_kampus }}, {{ $dataStaff->kantor->alamat_kantor }}</span>
+                  <span>{{ $dataStaff->kantor->nama_kantor }}, {{ $dataKantor->nama_kantor }}, {{ $dataStaff->kantor->alamat_kantor }}</span>
                 </div>
               </div>
               <div class="row text-primary-emphasis fw-light">
@@ -84,7 +84,7 @@
           <div class="card-body fw-light">
             @foreach ($dataRiwayatPendidikan as $item)
               <div>
-                {{ $item->lulusan }} {{ $item->bidang_ilmu->nama_bidang_ilmu }}, {{ $item->nama_perguruan_tinggi }} ({{ $item->tahun_masuk }} - {{ $item->tahun_lulus }})
+                {{ $item->lulusan }} {{ $item->bidang_ilmu->nama_bidang_ilmu }}, {{ $item->kampus->nama_kampus }} ({{ $item->tahun_masuk }} - {{ $item->tahun_lulus }})
               </div>
             @endforeach
           </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KampusModel;
 use Illuminate\Http\Request;
 use App\Models\StaffModel;
 use App\Models\KantorModel;
@@ -63,8 +64,9 @@ class SearchController extends Controller
     public function show(string $id)
     {
         $dataStaff = StaffModel::find($id);
-        $dataKampus = $dataStaff->kantor;
+        $dataKantor = $dataStaff->kantor;
         $dataRiwayatPendidikan = $dataStaff->riwayat_pendidikan;
+        // dd($dataRiwayatPendidikan[0]->kampus);
         $dataPenelitian = $dataStaff->penelitian;
         $dataPengabdian = $dataStaff->pengabdian;
         $dataArtikel = $dataStaff->artikel;
@@ -74,7 +76,7 @@ class SearchController extends Controller
         $dataPenghargaan = $dataStaff->penghargaan;
         return view('pages.user.search.show', compact(
             'dataStaff', 
-            'dataKampus',
+            'dataKantor',
             'dataRiwayatPendidikan',
             'dataPenelitian',
             'dataPengabdian', 

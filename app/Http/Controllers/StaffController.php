@@ -92,7 +92,9 @@ class StaffController extends Controller
                 'tanggal_lahir' => $request->tanggal_lahir,
                 'nomor_telepon' => $request->nomor_telepon,
                 'fax' => $request->fax,
-                'id_kantor' => $request->nama_kantor
+                'id_kantor' => $request->nama_kantor,
+                'profile_image' => '',
+                'profile_mime_type' => 'png'
             ]);
             $dataStaff = StaffModel::find($dataUUID);
             $dataUUID = DB::select('SELECT UUID() as hehe')[0]->hehe;

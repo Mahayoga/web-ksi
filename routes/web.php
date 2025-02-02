@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\CheckLogin;
 use App\Http\Middleware\Guest;
 use Illuminate\Support\Facades\DB;
@@ -34,6 +35,7 @@ Route::resource('login', LoginController::class)->except('destroy');
 
 Route::middleware('check.login')->group(function() {
     Route::resource('dashboard', DashboardController::class)->only('index');
+    Route::resource('profile', ProfileController::class);
     Route::resource('staff',StaffController::class);
         Route::get('get/staff', [StaffController::class, 'getStaff'])->name('staff.getStaff');
     Route::resource('riwayatpendidikan',RiwayatPendidikanController::class);

@@ -55,11 +55,11 @@
                     <div class="card shadow">
                       <div class="card-body d-flex">
                         <div class="col-md-2 me-2">
-                          <img src="{{ asset('assets/img/staff/khafid.png') }}" alt="profil" class="rounded-circle w-100">
+                          <img src="{{ asset('storage/' . $item['dataStaff']->profile_image) }}" alt="profil" class="rounded-circle w-100">
                         </div>
                         <div class="col-md-9">
                           <p class="fs-6 m-0 text-primary-emphasis fw-bold">{{ $item['dataStaff']->nama_lengkap }}, {{ $item['dataStaff']->gelar }}</p>
-                          <p class="fs-6">Information Technology</p>
+                          <p class="fs-6">{{ $item['dataStaff']->kantor->nama_kantor }}</p>
                           <p class="fs-6 m-0 text-primary-emphasis fw-light">{{ $item['dataPublikasi']->jumlah }} Publication {{ $item['dataPaten']->jumlah }} Patent/IP</p>
                           <p class="fs-6 m-0 text-primary-emphasis fw-light">{{ $item['dataPrototipe']['jumlah'] }} Prototype {{ $item['dataPenelitian']->jumlah }} Research</p>
                           <p class="fs-6 text-primary-emphasis fw-light">{{ $item['dataPengabdian']->jumlah }} Community Service</p>

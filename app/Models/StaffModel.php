@@ -22,7 +22,9 @@ class StaffModel extends Model
         'tanggal_lahir',
         'nomor_telepon',
         'fax',
-        'id_kantor'
+        'id_kantor',
+        'profile_image',
+        'profile_mime_type'
     ];
 
     public function kantor() {

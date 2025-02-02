@@ -16,6 +16,6 @@ class KantorModel extends Model
     }
 
     public function kampus() {
-        return $this->hasMany(KampusModel::class, 'id_kampus', 'id_kampus');
+        return $this->hasOne(KampusModel::class, 'id_kampus', 'id_kampus');
     }
 }
