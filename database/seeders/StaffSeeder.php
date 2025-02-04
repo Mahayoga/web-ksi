@@ -18,7 +18,8 @@ class StaffSeeder extends Seeder
         StaffModel::create([
             'id_staff' => 'd196be94-b1be-11ef-9fcd-763fda8715d5',
             'nama_lengkap' => 'Khafidurrohman Agustianto',
-            'gelar' => 'S.Pd., M.Eng.',
+            'gelar_depan' => '',
+            'gelar_belakang' => 'S.Pd., M.Eng.',
             'jenis_kelamin' => 'l',
             'jabatan_fungsional' => 'Lektor/IIIc',
             'NIP' => '199112112018031001',
@@ -28,13 +29,13 @@ class StaffSeeder extends Seeder
             'nomor_telepon' => '085646418027',
             'id_kantor' => 'd4c945f3-abc1-11ef-80d9-d4dedcb2e874',
             'fax' => '0331-333531',
-            'profile_image' => 'assets/img/staff/khafid.png',
-            'profile_mime_type' => 'png'
+            'profile_image' => 'assets/img/staff/khafid.png'
         ]);
         StaffModel::create([
             'id_staff' => '15edb34c-b4ef-11ef-95f9-5ac3c48e79b2',
             'nama_lengkap' => 'Mahayoga Ksatria Hanafi Bahtiar',
-            'gelar' => 'A.Md. Kom',
+            'gelar_depan' => '',
+            'gelar_belakang' => 'A.Md. Kom',
             'jenis_kelamin' => 'l',
             'jabatan_fungsional' => 'Lektor/IIIc',
             'NIP' => '199112112018031002',
@@ -44,8 +45,23 @@ class StaffSeeder extends Seeder
             'nomor_telepon' => '082337341446',
             'id_kantor' => 'd4c945f3-abc1-11ef-80d9-d4dedcb2e874',
             'fax' => '0331-333531',
-            'profile_image' => '',
-            'profile_mime_type' => 'png'
+            'profile_image' => 'assets/img/staff/default_profile.png'
+        ]);
+        StaffModel::create([
+            'id_staff' => 'ecd09a5a-e14a-11ef-a4d9-847eec23e929',
+            'nama_lengkap' => 'Denny Trias Utomo',
+            'gelar_depan' => 'Dr.',
+            'gelar_belakang' => 'S.Si, MT',
+            'jenis_kelamin' => 'l',
+            'jabatan_fungsional' => 'Lektor Kepala / Associate Professor',
+            'NIP' => '197110092003121001',
+            'NIDN' => '0009107104',
+            'tempat_lahir' => 'Malang',
+            'tanggal_lahir' => '1971-10-09',
+            'nomor_telepon' => '081336608000',
+            'id_kantor' => 'd4c945f3-abc1-11ef-80d9-d4dedcb2e874',
+            'fax' => '-',
+            'profile_image' => 'assets/img/staff/default_profile.png'
         ]);
     }
 }

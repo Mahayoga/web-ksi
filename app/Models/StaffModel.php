@@ -13,7 +13,8 @@ class StaffModel extends Model
     protected $fillable = [
         'id_staff',
         'nama_lengkap',
-        'gelar',
+        'gelar_depan',
+        'gelar_belakang',
         'jenis_kelamin',
         'jabatan_fungsional',
         'NIP',

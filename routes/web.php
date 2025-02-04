@@ -36,6 +36,8 @@ Route::resource('login', LoginController::class)->except('destroy');
 Route::middleware('check.login')->group(function() {
     Route::resource('dashboard', DashboardController::class)->only('index');
     Route::resource('profile', ProfileController::class);
+        Route::get('get/profile/name', [ProfileController::class, 'getNameAndGelar'])->name('profile.getNameAndGelar');
+        Route::post('update/profile/image', [ProfileController::class, 'updateProfileImage'])->name('profile.updateProfileImage');
     Route::resource('staff',StaffController::class);
         Route::get('get/staff', [StaffController::class, 'getStaff'])->name('staff.getStaff');
     Route::resource('riwayatpendidikan',RiwayatPendidikanController::class);
