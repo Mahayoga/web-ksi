@@ -24,7 +24,7 @@ class ProfileController extends Controller
         try {
             $dataStaff = StaffModel::find(Auth::user()->id_staff);
             $oldFile = public_path() . '/storage/' . $dataStaff->profile_image;
-            if(is_file($oldFile)) {
+            if(is_file($oldFile) && !str_contains($oldFile, 'default_profile.png')) {
                 Storage::delete($oldFile);
                 $prepareFile = $request->file('profile_image');
                 $filePath = $prepareFile->store('assets/img/staff', 'public');
@@ -39,7 +39,7 @@ class ProfileController extends Controller
                 return response()->json([
                     'status' => 'error',
                     'msg' => 'File tidak ditemukan!',
-                    'path' => is_file($dataStaff->profile_image)
+                    'path' => $oldFile
                 ]);
             }
         } catch(\Exception $e) {
