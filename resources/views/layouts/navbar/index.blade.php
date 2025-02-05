@@ -6,9 +6,9 @@
         <h1 class="sitename">LAB KSI</h1>
       </a>
       @if (Auth::check())
-        <a class="d-none d-sm-block" href="{{ route('dashboard.index') }}">{{ Auth::user()->name }}</a>
+        <a class="d-none d-sm-block" href="{{ route('dashboard') }}">{{ Auth::user()->name }}</a>
       @else
-        <a class="cta-btn d-none d-sm-block" href="{{ route('login.index') }}">Login</a>
+        <a class="cta-btn d-none d-sm-block" href="{{ route('login') }}">Login</a>
       @endif
       <nav id="navmenu" class="navmenu">
         <ul>

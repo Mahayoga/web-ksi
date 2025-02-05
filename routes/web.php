@@ -30,14 +30,22 @@ Route::get('test/get-uuid', function() {
     return DB::select('SELECT UUID() as hehe')[0]->hehe;
 });
 
-Route::resource('login', LoginController::class)->except('destroy');
-    Route::get('logout', [LoginController::class, 'destroy'])->name('login.destroy');
+Route::resource('search', SearchController::class)->except('index');
+    Route::post('search', [SearchController::class, 'index'])->name('search.index');
 
-Route::middleware('check.login')->group(function() {
-    Route::resource('dashboard', DashboardController::class)->only('index');
-    Route::resource('profile', ProfileController::class);
+Route::resource('users', UserController::class);
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
         Route::get('get/profile/name', [ProfileController::class, 'getNameAndGelar'])->name('profile.getNameAndGelar');
         Route::post('update/profile/image', [ProfileController::class, 'updateProfileImage'])->name('profile.updateProfileImage');
+    Route::resource('dashboard', DashboardController::class)->only('index')->name('index', 'dashboard');
     Route::resource('staff',StaffController::class);
         Route::get('get/staff', [StaffController::class, 'getStaff'])->name('staff.getStaff');
     Route::resource('riwayatpendidikan',RiwayatPendidikanController::class);
@@ -62,7 +70,5 @@ Route::middleware('check.login')->group(function() {
         Route::get('get/penghargaan', [PenghargaanController::class, 'getPenghargaan'])->name('penghargaan.getPenghargaan');
 });
 
-Route::resource('search', SearchController::class)->except('index');
-    Route::post('search', [SearchController::class, 'index'])->name('search.index');
 
-Route::resource('users', UserController::class);
+require __DIR__.'/auth.php';

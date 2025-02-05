@@ -7,7 +7,7 @@
           <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
           Beranda
         </a>
-        <a class="nav-link" href="{{ route('dashboard.index') }}">
+        <a class="nav-link" href="{{ route('dashboard') }}">
           <div class="sb-nav-link-icon"><i class="fas fa-dashboard"></i></div>
           Dashboard
         </a>
@@ -32,7 +32,7 @@
         </div>
 
         <div class="sb-sidenav-menu-heading">Lain-Lain</div>
-        <a class="nav-link" href="{{ route('login.destroy') }}">
+        <a class="nav-link" href="{{ route('logout') }}">
           <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
           Keluar
         </a>
