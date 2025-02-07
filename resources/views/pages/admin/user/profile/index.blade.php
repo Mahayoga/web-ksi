@@ -14,7 +14,8 @@
         <div class="card-body">
           <input type="file" name="img_file" id="img_file" class="d-none my-2">
           <div class="d-none" id="alert-img">Klik batal untuk membatalkan</div>
-          <button type="button" onclick="setEditProfilField()" id="img-add-btn" class="btn btn-secondary">Edit gambar profil</button>
+          <button type="button" onclick="setEditProfilField()" id="img-add-btn" class="btn btn-secondary">Edit foto profil</button>
+          <button type="button" onclick="setDefaultProfile()" id="img-edit-default-btn" class="btn btn-secondary d-none">Hapus foto profil</button>
           <button type="button" onclick="setCancelEditProfilField()" id="img-add-cancel-btn" class="btn btn-secondary d-none">Batal</button>
         </div>
       </div>
@@ -117,6 +118,7 @@
       let profileField = document.getElementById('img_file');
       let alertImg = document.getElementById('alert-img');
       let btn = document.getElementById('img-add-btn');
+      let btnDefault = document.getElementById('img-edit-default-btn');
       let btnCancel = document.getElementById('img-add-cancel-btn');
       let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -133,7 +135,20 @@
               profileField.classList.add('d-none');
               alertImg.classList.add('d-none');
               btnCancel.classList.add('d-none');
+              btnDefault.classList.add('d-none');
               editableProfile = false;
+
+              Swal.fire({
+                title: "Berhasil",
+                text: "Berhasil mengedit foto profil!",
+                icon: "success"
+              });
+            } else {
+              Swal.fire({
+                title: "Error",
+                text: "Gagal mengedit foto profil!",
+                icon: "error"
+              });
             }
           }
         };
@@ -150,6 +165,7 @@
         profileField.classList.remove('d-none');
         alertImg.classList.remove('d-none');
         btnCancel.classList.remove('d-none');
+        btnDefault.classList.remove('d-none');
         editableProfile = true;
       }
     }
@@ -159,6 +175,7 @@
       let alertImg = document.getElementById('alert-img');
       let btn = document.getElementById('img-add-btn');
       let btnCancel = document.getElementById('img-add-cancel-btn');
+      let btnDefault = document.getElementById('img-edit-default-btn');
 
       btn.innerText = "Edit gambar profil";
       btn.classList.add('btn-secondary');
@@ -166,6 +183,7 @@
       profileField.classList.add('d-none');
       alertImg.classList.add('d-none');
       btnCancel.classList.add('d-none');
+      btnDefault.classList.add('d-none');
       editableProfile = false;
     }
 
@@ -216,6 +234,17 @@
               btnEdit.classList.add('btn-secondary');
               btnEdit.innerText = 'Edit';
               setLongName();
+              Swal.fire({
+                title: "Berhasil",
+                text: "Berhasil mengedit data profil!",
+                icon: "success"
+              });
+            } else {
+              Swal.fire({
+                title: "Error",
+                text: "Gagal mengedit data profil!",
+                icon: "error"
+              });
             }
           }
         };
@@ -250,7 +279,7 @@
         formData.append('_token', token);
         formData.append('_method', 'PATCH');
         
-        xhttp.open('POST', "{{ route('profile.update', ['profile' => Auth::user()->id_staff]) }}", true);
+        xhttp.open('POST', "{{ route('profil.update', ['profil' => Auth::user()->id_staff]) }}", true);
         xhttp.send(formData);
       } else {
         editable = true;
@@ -286,6 +315,35 @@
         dataNomorTelepon.innerHTML = `<input type="text" value="${dataNomorTelepon.innerText}" class="form-control">`;
         dataFax.innerHTML = `<input type="text" value="${dataFax.innerText}" class="form-control">`;
       }
+    }
+    
+    function setDefaultProfile() {
+      let xhttp = new XMLHttpRequest();
+      let img = document.getElementById('profile_img');
+
+      xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+          let data = JSON.parse(this.responseText);
+          if(data.status == 'success') {
+            let path = '{{ asset("storage/__PATH__") }}';
+            img.setAttribute('src', path.replace('__PATH__', data.path));
+            Swal.fire({
+              title: "Berhasil",
+              text: "Berhasil menghapus foto profil!",
+              icon: "success"
+            });
+          } else {
+            Swal.fire({
+              title: "Error",
+              text: "Gagal menghapus foto profil!",
+              icon: "error"
+            });
+          }
+        }
+      };
+
+      xhttp.open('GET', '{{ route("profile.updateProfileImageDefault") }}', true);
+      xhttp.send();
     }
   </script>
 @endsection

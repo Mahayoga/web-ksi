@@ -40,10 +40,9 @@ Route::resource('users', UserController::class);
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::resource('profil', ProfileController::class);
         Route::get('get/profile/name', [ProfileController::class, 'getNameAndGelar'])->name('profile.getNameAndGelar');
+        Route::get('update/profile/image/default', [ProfileController::class, 'updateProfileImageDefault'])->name('profile.updateProfileImageDefault');
         Route::post('update/profile/image', [ProfileController::class, 'updateProfileImage'])->name('profile.updateProfileImage');
     Route::resource('dashboard', DashboardController::class)->only('index')->name('index', 'dashboard');
     Route::resource('staff',StaffController::class);

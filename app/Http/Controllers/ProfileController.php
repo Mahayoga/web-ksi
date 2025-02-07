@@ -28,8 +28,10 @@ class ProfileController extends Controller
         try {
             $dataStaff = StaffModel::find(Auth::user()->id_staff);
             $oldFile = public_path() . '/storage/' . $dataStaff->profile_image;
-            if(is_file($oldFile) && !str_contains($oldFile, 'default_profile.png')) {
-                Storage::delete($oldFile);
+            if(is_file($oldFile)) {
+                if(!str_contains($oldFile, 'default_profile.png')) {
+                    Storage::delete($oldFile);
+                }
                 $prepareFile = $request->file('profile_image');
                 $filePath = $prepareFile->store('assets/img/staff', 'public');
                 $dataStaff->update([
@@ -49,7 +51,34 @@ class ProfileController extends Controller
         } catch(\Exception $e) {
             return response()->json([
                 'status' => 'error',
-                'msg' => $e
+                'msg' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function updateProfileImageDefault() {
+        try {
+            $dataStaff = StaffModel::find(Auth::user()->id_staff);
+            $oldFile = public_path() . '/storage/' . $dataStaff->profile_image;
+            if(is_file($oldFile)) {
+                Storage::delete($oldFile);
+                $dataStaff->update([
+                    'profile_image' => 'assets/img/staff/default_profile.png'
+                ]);
+                return response()->json([
+                    'status' => 'success',
+                    'path' => $dataStaff->profile_image
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'msg' => 'File tidak ditemukan!'
+                ]);
+            }
+        } catch(\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'msg' => $e->getMessage()
             ]);
         }
     }
