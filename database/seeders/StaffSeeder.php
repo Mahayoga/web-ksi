@@ -21,7 +21,7 @@ class StaffSeeder extends Seeder
             'gelar_depan' => '',
             'gelar_belakang' => 'S.Pd., M.Eng.',
             'jenis_kelamin' => 'l',
-            'jabatan_fungsional' => 'Lektor/IIIc',
+            'id_pangkat' => '7dcc3a66-e701-11ef-b357-ad35fe5edb30',
             'NIP' => '199112112018031001',
             'NIDN' => '0011129102',
             'tempat_lahir' => 'Trenggalek',
@@ -29,7 +29,7 @@ class StaffSeeder extends Seeder
             'nomor_telepon' => '085646418027',
             'id_kantor' => 'd4c945f3-abc1-11ef-80d9-d4dedcb2e874',
             'fax' => '0331-333531',
-            'profile_image' => 'assets/img/staff/khafid.png'
+            'profile_image' => 'assets/img/staff/default_profile.png'
         ]);
         StaffModel::create([
             'id_staff' => '15edb34c-b4ef-11ef-95f9-5ac3c48e79b2',
@@ -37,7 +37,7 @@ class StaffSeeder extends Seeder
             'gelar_depan' => '',
             'gelar_belakang' => 'A.Md. Kom',
             'jenis_kelamin' => 'l',
-            'jabatan_fungsional' => 'Lektor/IIIc',
+            'id_pangkat' => '4a2a2fb9-e701-11ef-b357-ad35fe5edb30',
             'NIP' => '199112112018031002',
             'NIDN' => '0011129103',
             'tempat_lahir' => 'Probolinggo',
@@ -53,7 +53,7 @@ class StaffSeeder extends Seeder
             'gelar_depan' => 'Dr.',
             'gelar_belakang' => 'S.Si, MT',
             'jenis_kelamin' => 'l',
-            'jabatan_fungsional' => 'Lektor Kepala / Associate Professor',
+            'id_pangkat' => '9a6ac22a-e701-11ef-b357-ad35fe5edb30',
             'NIP' => '197110092003121001',
             'NIDN' => '0009107104',
             'tempat_lahir' => 'Malang',

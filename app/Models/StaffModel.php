@@ -16,7 +16,7 @@ class StaffModel extends Model
         'gelar_depan',
         'gelar_belakang',
         'jenis_kelamin',
-        'jabatan_fungsional',
+        'id_pangkat',
         'NIP',
         'NIDN',
         'tempat_lahir',
@@ -65,6 +65,10 @@ class StaffModel extends Model
 
     public function users() {
         return $this->hasOne(UserModel::class, 'id_staff', 'id_staff');
+    }
+
+    public function pangkat() {
+        return $this->hasOne(PangkatModel::class, 'id_pangkat', 'id_pangkat');
     }
 
 

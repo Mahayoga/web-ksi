@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::unprepared('ALTER TABLE jabatan ADD FOREIGN KEY (id_pangkat) REFERENCES pangkat (id_pangkat)');
+        DB::unprepared('ALTER TABLE pangkat ADD FOREIGN KEY (id_jabatan) REFERENCES jabatan (id_jabatan)');
     }
 
     /**
