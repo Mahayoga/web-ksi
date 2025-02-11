@@ -37,18 +37,16 @@ Route::resource('search', SearchController::class)->except('index');
 
 Route::resource('users', UserController::class);
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
+Route::middleware('check.login')->group(function () {
     Route::resource('profil', ProfileController::class);
         Route::get('get/profile/name', [ProfileController::class, 'getNameAndGelar'])->name('profile.getNameAndGelar');
         Route::get('update/profile/image/default', [ProfileController::class, 'updateProfileImageDefault'])->name('profile.updateProfileImageDefault');
         Route::post('update/profile/image', [ProfileController::class, 'updateProfileImage'])->name('profile.updateProfileImage');
     Route::resource('dashboard', DashboardController::class)->only('index')->name('index', 'dashboard');
-    Route::resource('staff',StaffController::class);
-        Route::get('get/staff', [StaffController::class, 'getStaff'])->name('staff.getStaff');
+    Route::middleware('check.admin')->group(function() {
+        Route::resource('staff',StaffController::class);
+            Route::get('get/staff', [StaffController::class, 'getStaff'])->name('staff.getStaff');
+    });
     Route::resource('riwayatpendidikan',RiwayatPendidikanController::class);
         Route::get('get/riwayatpendidikan', [RiwayatPendidikanController::class, 'getData'])->name('riwayatpendidikan.getData');
         Route::get('get/bidang-pendidikan/{id}', [RiwayatPendidikanController::class, 'getBidangPendidikan'])->name('riwayatpendidikan.getBidangPendidikan');

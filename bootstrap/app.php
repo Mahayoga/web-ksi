@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckIfAdmin;
 use App\Http\Middleware\CheckLogin;
 use App\Http\Middleware\Guest;
 use Illuminate\Foundation\Application;
@@ -13,8 +14,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->use([
+            //
+        ]);
         $middleware->prependToGroup('check.login', [
             CheckLogin::class
+        ]);
+        $middleware->prependToGroup('check.admin', [
+            CheckIfAdmin::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
