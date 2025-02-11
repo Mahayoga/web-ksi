@@ -87,7 +87,8 @@
               </tr>
             </tbody>
           </table>
-          <button type="button" onclick="setEditField()" id="edit-btn" class="btn btn-secondary">Edit</button>
+          <button type="button" onclick="setEditField()" id="edit-btn" class="btn btn-secondary mx-2">Edit</button>
+          <button type="button" onclick="cancelEditField()" id="cancel-edit-btn" class="btn btn-secondary d-none">Batal</button>
         </div>
       </div>
     </div>
@@ -195,8 +196,47 @@
       editableProfile = false;
     }
 
+    function cancelEditField() {
+      let btnEdit = document.getElementById('edit-btn');
+      let btnEditCancel = document.getElementById('cancel-edit-btn');
+
+      let dataNamaLengkap = document.getElementById('edit-nama_lengkap');
+      let dataGelarDepan = document.getElementById('edit-gelar_depan');
+      let dataGelarBelakang = document.getElementById('edit-gelar_belakang');
+      let dataNIP = document.getElementById('edit-nip');
+      let dataNIDN = document.getElementById('edit-nidn');
+      let dataJabatanFungsional = document.getElementById('edit-jabatan_fungsional');
+      let dataGolongan = document.getElementById('edit-golongan');
+      let dataJenisKelamin = document.getElementById('edit-jenis_kelamin');
+      let dataTempatLahir = document.getElementById('edit-tempat_lahir');
+      let dataTanggalLahir = document.getElementById('edit-tanggal_lahir');
+      let dataNomorTelepon = document.getElementById('edit-nomor_telepon');
+      let dataFax = document.getElementById('edit-fax');
+      let dataAlamat = document.getElementById('edit-alamat');
+
+      dataNamaLengkap.innerHTML = dataNamaLengkap.childNodes[0].value;
+      dataGelarDepan.innerHTML = dataGelarDepan.childNodes[0].value;
+      dataGelarBelakang.innerHTML = dataGelarBelakang.childNodes[0].value;
+      dataNIP.innerHTML = dataNIP.childNodes[0].value;
+      dataNIDN.innerHTML = dataNIDN.childNodes[0].value;
+      dataJabatanFungsional.innerHTML = dataJabatanFungsional.childNodes[0].value;
+      dataGolongan.innerHTML = dataGolongan.childNodes[0].value;
+      dataJenisKelamin.innerHTML = dataJenisKelamin.childNodes[0].value;
+      dataTempatLahir.innerHTML = dataTempatLahir.childNodes[0].value;
+      dataTanggalLahir.innerHTML = dataTanggalLahir.childNodes[0].value;
+      dataNomorTelepon.innerHTML = dataNomorTelepon.childNodes[0].value;
+      dataFax.innerHTML = dataFax.childNodes[0].value;
+      dataAlamat.innerHTML = dataAlamat.childNodes[0].value;
+
+      btnEdit.classList.add('btn-secondary');
+      btnEdit.classList.remove('btn-primary');
+      btnEdit.innerText = 'Edit';
+      btnEditCancel.classList.add('d-none');
+    }
+
     function setEditField() {
       let btnEdit = document.getElementById('edit-btn');
+      let btnEditCancel = document.getElementById('cancel-edit-btn');
       let dataNamaLengkapDanGelar = document.getElementById('nama_lengkap_dan_gelar');
       let xhttp = new XMLHttpRequest();
       let formData = new FormData();
@@ -244,6 +284,7 @@
               editable = false;
               btnEdit.classList.remove('btn-primary');
               btnEdit.classList.add('btn-secondary');
+              btnEditCancel.classList.add('d-none');
               btnEdit.innerText = 'Edit';
               setLongName();
               Swal.fire({
@@ -303,6 +344,7 @@
         editable = true;
         btnEdit.classList.remove('btn-secondary');
         btnEdit.classList.add('btn-primary');
+        btnEditCancel.classList.remove('d-none');
         btnEdit.innerText = 'Simpan';
 
         let xhttp2 = new XMLHttpRequest();
