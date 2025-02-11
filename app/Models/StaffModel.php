@@ -23,6 +23,7 @@ class StaffModel extends Model
         'tanggal_lahir',
         'nomor_telepon',
         'fax',
+        'alamat',
         'id_kantor',
         'profile_image',
         'profile_mime_type'

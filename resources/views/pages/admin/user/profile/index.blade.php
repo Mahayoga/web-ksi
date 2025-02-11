@@ -81,6 +81,10 @@
                 <th>Fax</th>
                 <td class="text-secondary" id="edit-fax">{{ $dataStaff->fax }}</td>
               </tr>
+              <tr>
+                <th>Alamat</th>
+                <td class="text-secondary" id="edit-alamat">{{ $dataStaff->alamat }}</td>
+              </tr>
             </tbody>
           </table>
           <button type="button" onclick="setEditField()" id="edit-btn" class="btn btn-secondary">Edit</button>
@@ -210,6 +214,7 @@
       let dataTanggalLahir = document.getElementById('edit-tanggal_lahir');
       let dataNomorTelepon = document.getElementById('edit-nomor_telepon');
       let dataFax = document.getElementById('edit-fax');
+      let dataAlamat = document.getElementById('edit-alamat');
 
       if(editable) {
         xhttp.onreadystatechange = function() {
@@ -234,6 +239,7 @@
               dataTanggalLahir.innerHTML = `${data.dataStaff.tanggal_lahir}`;
               dataNomorTelepon.innerHTML = `${data.dataStaff.nomor_telepon}`;
               dataFax.innerHTML = `${data.dataStaff.fax}`;
+              dataAlamat.innerHTML = `${data.dataStaff.alamat}`;
 
               editable = false;
               btnEdit.classList.remove('btn-primary');
@@ -274,6 +280,11 @@
           formData.append('fax', dataFax.childNodes[0].value);
         } else {
           formData.append('fax', '-');
+        }
+        if(dataAlamat.childNodes[0].value != '') {
+          formData.append('alamat', dataAlamat.childNodes[0].value);
+        } else {
+          formData.append('alamat', '-');
         }
         formData.append('nama_lengkap', dataNamaLengkap.childNodes[0].value);
         formData.append('nip', dataNIP.childNodes[0].value);
@@ -342,6 +353,7 @@
         dataTanggalLahir.innerHTML = `<input type="text" value="${dataTanggalLahir.innerText}" class="form-control">`;
         dataNomorTelepon.innerHTML = `<input type="text" value="${dataNomorTelepon.innerText}" class="form-control">`;
         dataFax.innerHTML = `<input type="text" value="${dataFax.innerText}" class="form-control">`;
+        dataAlamat.innerHTML = `<input type="text" value="${dataAlamat.innerText}" class="form-control">`;
       }
     }
     

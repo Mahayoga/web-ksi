@@ -29,6 +29,7 @@ class StaffSeeder extends Seeder
             'nomor_telepon' => '085646418027',
             'id_kantor' => 'd4c945f3-abc1-11ef-80d9-d4dedcb2e874',
             'fax' => '0331-333531',
+            'alamat' => 'Jember',
             'profile_image' => 'assets/img/staff/default_profile.png'
         ]);
         StaffModel::create([
@@ -45,6 +46,7 @@ class StaffSeeder extends Seeder
             'nomor_telepon' => '082337341446',
             'id_kantor' => 'd4c945f3-abc1-11ef-80d9-d4dedcb2e874',
             'fax' => '0331-333531',
+            'alamat' => 'Probolinggo',
             'profile_image' => 'assets/img/staff/default_profile.png'
         ]);
         StaffModel::create([
@@ -61,6 +63,7 @@ class StaffSeeder extends Seeder
             'nomor_telepon' => '081336608000',
             'id_kantor' => 'd4c945f3-abc1-11ef-80d9-d4dedcb2e874',
             'fax' => '-',
+            'alamat' => 'Probolinggo',
             'profile_image' => 'assets/img/staff/default_profile.png'
         ]);
     }
