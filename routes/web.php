@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\JabatanController;
+use App\Http\Controllers\PangkatController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\CheckLogin;
 use App\Http\Middleware\Guest;
@@ -67,6 +69,10 @@ Route::middleware('auth')->group(function () {
         Route::get('get/hki', [HKIController::class, 'getHKI'])->name('hki.getHKI');
     Route::resource('penghargaan',PenghargaanController::class);
         Route::get('get/penghargaan', [PenghargaanController::class, 'getPenghargaan'])->name('penghargaan.getPenghargaan');
+    Route::resource('jabatan',JabatanController::class);
+        Route::get('get/jabatan',[JabatanController::class, 'getJabatan'])->name('jabatan.getJabatan');
+    Route::resource('pangkat',PangkatController::class);
+        Route::get('get/pangkat/{pangkat}',[PangkatController::class, 'getPangkat'])->name('pangkat.getPangkat');
 });
 
 

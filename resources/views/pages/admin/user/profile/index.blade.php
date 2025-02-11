@@ -50,8 +50,12 @@
                 <td class="text-secondary" id="edit-nidn">{{ $dataStaff->NIDN }}</td>
               </tr>
               <tr>
-                <th>Jabatan Fungsional</th>
-                <td class="text-secondary" id="edit-jabatan_fungsional">{{ $dataStaff->jabatan_fungsional }}</td>
+                <th>Jabatan</th>
+                <td class="text-secondary" id="edit-jabatan_fungsional">{{ $dataStaff->pangkat->jabatan->nama_jabatan }}</td>
+              </tr>
+              <tr>
+                <th>Golongan</th>
+                <td class="text-secondary" id="edit-golongan">{{ $dataStaff->pangkat->golongan }}</td>
               </tr>
               <tr>
                 <th>Jenis Kelamin</th>
@@ -200,6 +204,7 @@
       let dataNIP = document.getElementById('edit-nip');
       let dataNIDN = document.getElementById('edit-nidn');
       let dataJabatanFungsional = document.getElementById('edit-jabatan_fungsional');
+      let dataGolongan = document.getElementById('edit-golongan');
       let dataJenisKelamin = document.getElementById('edit-jenis_kelamin');
       let dataTempatLahir = document.getElementById('edit-tempat_lahir');
       let dataTanggalLahir = document.getElementById('edit-tanggal_lahir');
@@ -216,7 +221,8 @@
               dataGelarBelakang.innerHTML = `${data.dataStaff.gelar_belakang}`;
               dataNIP.innerHTML = `${data.dataStaff.NIP}`;
               dataNIDN.innerHTML = `${data.dataStaff.NIDN}`;
-              dataJabatanFungsional.innerHTML = `${data.dataStaff.jabatan_fungsional}`;
+              dataJabatanFungsional.innerHTML = `${data.dataJabatan.nama_jabatan}`;
+              dataGolongan.innerHTML = `${data.dataPangkat.golongan}`;
 
               if(data.dataStaff.jenis_kelamin == 'l') {
                 dataJenisKelamin.innerHTML = 'Laki-Laki';
@@ -273,6 +279,7 @@
         formData.append('nip', dataNIP.childNodes[0].value);
         formData.append('nidn', dataNIDN.childNodes[0].value);
         formData.append('jabatan_fungsional', dataJabatanFungsional.childNodes[0].value);
+        formData.append('golongan', dataGolongan.childNodes[0].value);
         formData.append('jenis_kelamin', dataJenisKelamin.childNodes[1].value);
         formData.append('tempat_lahir', dataTempatLahir.childNodes[0].value);
         formData.append('tanggal_lahir', dataTanggalLahir.childNodes[0].value);
@@ -287,12 +294,33 @@
         btnEdit.classList.add('btn-primary');
         btnEdit.innerText = 'Simpan';
 
+        let xhttp2 = new XMLHttpRequest();
+        xhttp2.onreadystatechange = function() {
+          if(this.readyState == 4 && this.status == 200) {
+            let data = JSON.parse(this.responseText);
+            if(data.status == 'success') {
+              let dataOldJabatan = dataJabatanFungsional.innerText;
+              dataJabatanFungsional.innerHTML = '<select class="form-select" id="edit-option-jabatan_fungsional" onchange="changeGolongan()">';
+              data.dataJabatan.forEach(element => {
+                if(element.nama_jabatan == dataOldJabatan) {
+                  dataJabatanFungsional.childNodes[0].innerHTML += `<option value="${element.id_jabatan}" selected>${element.nama_jabatan}</option>`;
+                } else {
+                  dataJabatanFungsional.childNodes[0].innerHTML += `<option value="${element.id_jabatan}">${element.nama_jabatan}</option>`;
+                }
+              });
+              dataJabatanFungsional.innerHTML += '</select>';
+              changeGolongan();
+            }
+          }
+        };
+        xhttp2.open('GET', '{{ route("jabatan.getJabatan") }}', false);
+        xhttp2.send();
+
         dataNamaLengkap.innerHTML = `<input type="text" value="${dataNamaLengkap.innerText}" class="form-control">`;
         dataGelarDepan.innerHTML = `<input type="text" value="${dataGelarDepan.innerText}" class="form-control">`;
         dataGelarBelakang.innerHTML = `<input type="text" value="${dataGelarBelakang.innerText}" class="form-control">`;
         dataNIP.innerHTML = `<input type="text" value="${dataNIP.innerText}" class="form-control">`;
         dataNIDN.innerHTML = `<input type="text" value="${dataNIDN.innerText}" class="form-control">`;
-        dataJabatanFungsional.innerHTML = `<input type="text" value="${dataJabatanFungsional.innerText}" class="form-control">`;
 
         if(dataJenisKelamin.innerText == 'Laki-Laki') {
           dataJenisKelamin.innerHTML = `
@@ -344,6 +372,33 @@
 
       xhttp.open('GET', '{{ route("profile.updateProfileImageDefault") }}', true);
       xhttp.send();
+    }
+  
+    function changeGolongan() {
+      let xhttp3 = new XMLHttpRequest();
+      let dataJabatanFungsional = document.getElementById('edit-jabatan_fungsional');
+      let dataGolongan = document.getElementById('edit-golongan');
+
+      xhttp3.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+          let data = JSON.parse(this.responseText);
+          if(data.status == 'success') {
+            let dataOldPangkat = dataGolongan.innerText;
+            dataGolongan.innerHTML = '<select class="form-select" id="edit-option-golongan">';
+            data.dataPangkat.forEach(element => {
+              if(element.golongan == dataOldPangkat) {
+                dataGolongan.childNodes[0].innerHTML += `<option value="${element.id_pangkat}" selected>${element.golongan}</option>`;
+              } else {
+                dataGolongan.childNodes[0].innerHTML += `<option value="${element.id_pangkat}">${element.golongan}</option>`;
+              }
+            });
+            dataGolongan.innerHTML += '</select>';
+          }
+        }
+      };
+      let url = '{{ route("pangkat.getPangkat", ["pangkat" => "__ID__"]) }}';
+      xhttp3.open('GET', url.replace('__ID__', dataJabatanFungsional.childNodes[0].value), false);
+      xhttp3.send();
     }
   </script>
 @endsection

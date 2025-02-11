@@ -121,6 +121,7 @@ class ProfileController extends Controller
             "nip" => ['required', 'string'],
             "nidn" => ['required', 'string'],
             "jabatan_fungsional" => ['required', 'string'],
+            "golongan" => ['required', 'string'],
             "jenis_kelamin" => ['required', 'string'],
             "tempat_lahir" => ['required', 'string'],
             "tanggal_lahir" => ['required', 'date'],
@@ -137,15 +138,20 @@ class ProfileController extends Controller
                 "NIP" => $request->nip,
                 "NIDN" => $request->nidn,
                 "jabatan_fungsional" => $request->jabatan_fungsional,
+                "golongan" => $request->golongan,
                 "jenis_kelamin" => $request->jenis_kelamin,
                 "tempat_lahir" => $request->tempat_lahir,
                 "tanggal_lahir" => $request->tanggal_lahir,
                 "nomor_telepon" => $request->nomor_telepon,
                 "fax" => $request->fax
             ]);
+            $dataPangkat = $dataStaff->pangkat;
+            $dataJabatan = $dataPangkat->jabatan;
             return response()->json([
                 'status' => 'success',
-                'dataStaff' => $dataStaff
+                'dataStaff' => $dataStaff,
+                'dataPangkat' => $dataPangkat,
+                'dataJabatan' => $dataJabatan
             ]);
         } catch(\Exception $e) {
             return response()->json([
