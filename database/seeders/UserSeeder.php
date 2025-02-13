@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         UserModel::create([
-            'id' => DB::select('SELECT UUID() as UUID')[0]->UUID,
+            'id' => null,
             'name' => 'Mahayoga',
             'email' => 'myoga.bahtiar@polije.ac.id',
             'password' => password_hash('admin1234', PASSWORD_BCRYPT, ['cost' => 12]),
@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             'id_staff' => '15edb34c-b4ef-11ef-95f9-5ac3c48e79b2'
         ]);
         UserModel::create([
-            'id' => DB::select('SELECT UUID() as UUID')[0]->UUID,
+            'id' => null,
             'name' => 'Khafidurrohman',
             'email' => 'khafid@polije.ac.id',
             'password' => password_hash('admin1234', PASSWORD_BCRYPT, ['cost' => 12]),
