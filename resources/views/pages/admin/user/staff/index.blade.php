@@ -10,18 +10,21 @@
         <thead>
           <tr>
             {{-- id_staff
+            id_staff
             nama_lengkap
-            gelar
+            gelar_depan
+            gelar_belakang
             jenis_kelamin
-            jabatan_fungsional
+            id_pangkat
             NIP
             NIDN
             tempat_lahir
             tanggal_lahir
-            email_staff
             nomor_telepon
             fax
-            id_kantor --}}
+            alamat
+            deskripsi
+            profile_image --}}
             <th>No</th>
             <th>Nama Pemilik</th>
             <th>NIP</th>
@@ -35,9 +38,9 @@
           @foreach ($dataStaff as $item)
             <tr>
               <td>{{ $i + 1 }}</td>
-              <td>{{ $item->nama_lengkap }}</td>
+              <td><span id="show-gelar_depan">{{ $item->gelar_depan }}</span>{{ $item->nama_lengkap }}<span id="show-gelar_belakang">{{ $item->gelar_belakang }}</span></td>
               <td>{{ $item->NIP }}</td>
-              <td>{{ $item->jabatan_fungsional }}</td>
+              <td>{{ $item->pangkat->jabatan->nama_jabatan }} - {{ $item->pangkat->nama_pangkat }}</td>
               <td>{{ $item->gelar }}</td>
               <td class="d-flex">
                 <a href="" class="btn btn-secondary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#showModal" onclick="showModal('{{ $item->id_staff }}')"><i class="fas fa-eye"></i></a>
