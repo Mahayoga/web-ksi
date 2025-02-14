@@ -24,6 +24,7 @@ class StaffModel extends Model
         'nomor_telepon',
         'fax',
         'alamat',
+        'deskripsi',
         'id_kantor',
         'profile_image',
         'profile_mime_type'

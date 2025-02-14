@@ -128,6 +128,7 @@ class ProfileController extends Controller
             "nomor_telepon" => ['required', 'string'],
             "fax" => ['required', 'string'],
             "alamat" => ['required', 'string'],
+            "deskripsi" => ['required', 'string'],
         ]);
         
         try {
@@ -145,7 +146,8 @@ class ProfileController extends Controller
                 "tanggal_lahir" => $request->tanggal_lahir,
                 "nomor_telepon" => $request->nomor_telepon,
                 "fax" => $request->fax,
-                "alamat" => $request->alamat
+                "alamat" => $request->alamat,
+                "deskripsi" => $request->deskripsi
             ]);
             $dataPangkat = $dataStaff->pangkat;
             $dataJabatan = $dataPangkat->jabatan;

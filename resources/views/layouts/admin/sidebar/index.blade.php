@@ -19,7 +19,9 @@
         </a>
         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
           <nav class="sb-sidenav-menu-nested nav">
-            <a class="nav-link" href="{{ route('staff.index') }}">Staff</a>
+            @if (Auth::user()->role == 'admin')
+              <a class="nav-link" href="{{ route('staff.index') }}">Staff</a>
+            @endif
             <a class="nav-link" href="{{ route('riwayatpendidikan.index') }}">Riwayat Pendidikan</a>
             <a class="nav-link" href="{{ route('penelitian.index') }}">Penelitian</a>
             <a class="nav-link" href="{{ route('pengabdian.index') }}">Pengabdian</a>

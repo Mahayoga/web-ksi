@@ -85,6 +85,10 @@
                 <th>Alamat</th>
                 <td class="text-secondary" id="edit-alamat">{{ $dataStaff->alamat }}</td>
               </tr>
+              <tr>
+                <th>Deskripsi Profil</th>
+                <td class="text-secondary" id="edit-deskripsi">{{ $dataStaff->deskripsi }}</td>
+              </tr>
             </tbody>
           </table>
           <button type="button" onclick="setEditField()" id="edit-btn" class="btn btn-secondary mx-2">Edit</button>
@@ -213,6 +217,7 @@
       let dataNomorTelepon = document.getElementById('edit-nomor_telepon');
       let dataFax = document.getElementById('edit-fax');
       let dataAlamat = document.getElementById('edit-alamat');
+      let dataDeskripsi = document.getElementById('edit-deskripsi');
 
       dataNamaLengkap.innerHTML = dataNamaLengkap.childNodes[0].value;
       dataGelarDepan.innerHTML = dataGelarDepan.childNodes[0].value;
@@ -227,6 +232,7 @@
       dataNomorTelepon.innerHTML = dataNomorTelepon.childNodes[0].value;
       dataFax.innerHTML = dataFax.childNodes[0].value;
       dataAlamat.innerHTML = dataAlamat.childNodes[0].value;
+      dataDeskripsi.innerHTML = dataDeskripsi.childNodes[0].value;
 
       btnEdit.classList.add('btn-secondary');
       btnEdit.classList.remove('btn-primary');
@@ -255,6 +261,7 @@
       let dataNomorTelepon = document.getElementById('edit-nomor_telepon');
       let dataFax = document.getElementById('edit-fax');
       let dataAlamat = document.getElementById('edit-alamat');
+      let dataDeskripsi = document.getElementById('edit-deskripsi');
 
       if(editable) {
         xhttp.onreadystatechange = function() {
@@ -280,6 +287,7 @@
               dataNomorTelepon.innerHTML = `${data.dataStaff.nomor_telepon}`;
               dataFax.innerHTML = `${data.dataStaff.fax}`;
               dataAlamat.innerHTML = `${data.dataStaff.alamat}`;
+              dataDeskripsi.innerHTML = `${data.dataStaff.deskripsi}`;
 
               editable = false;
               btnEdit.classList.remove('btn-primary');
@@ -326,6 +334,11 @@
           formData.append('alamat', dataAlamat.childNodes[0].value);
         } else {
           formData.append('alamat', '-');
+        }
+        if(dataDeskripsi.childNodes[0].value != '') {
+          formData.append('deskripsi', dataDeskripsi.childNodes[0].value);
+        } else {
+          formData.append('deskripsi', '-');
         }
         formData.append('nama_lengkap', dataNamaLengkap.childNodes[0].value);
         formData.append('nip', dataNIP.childNodes[0].value);
@@ -396,6 +409,7 @@
         dataNomorTelepon.innerHTML = `<input type="text" value="${dataNomorTelepon.innerText}" class="form-control">`;
         dataFax.innerHTML = `<input type="text" value="${dataFax.innerText}" class="form-control">`;
         dataAlamat.innerHTML = `<input type="text" value="${dataAlamat.innerText}" class="form-control">`;
+        dataDeskripsi.innerHTML = `<input type="text" value="${dataDeskripsi.innerText}" class="form-control">`;
       }
     }
     

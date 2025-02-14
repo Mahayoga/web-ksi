@@ -30,6 +30,7 @@ class StaffSeeder extends Seeder
             'id_kantor' => 'd4c945f3-abc1-11ef-80d9-d4dedcb2e874',
             'fax' => '0331-333531',
             'alamat' => 'Jember',
+            'deskripsi' => 'Lorem Ipsum Dolor sit Amet',
             'profile_image' => 'assets/img/staff/default_profile.png'
         ]);
         StaffModel::create([
@@ -47,6 +48,7 @@ class StaffSeeder extends Seeder
             'id_kantor' => 'd4c945f3-abc1-11ef-80d9-d4dedcb2e874',
             'fax' => '0331-333531',
             'alamat' => 'Probolinggo',
+            'deskripsi' => 'Lorem Ipsum Dolor sit Amet',
             'profile_image' => 'assets/img/staff/default_profile.png'
         ]);
         StaffModel::create([
@@ -64,6 +66,7 @@ class StaffSeeder extends Seeder
             'id_kantor' => 'd4c945f3-abc1-11ef-80d9-d4dedcb2e874',
             'fax' => '-',
             'alamat' => 'Probolinggo',
+            'deskripsi' => 'Lorem Ipsum Dolor sit Amet',
             'profile_image' => 'assets/img/staff/default_profile.png'
         ]);
     }
