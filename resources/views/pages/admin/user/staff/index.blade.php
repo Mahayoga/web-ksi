@@ -28,8 +28,8 @@
             <th>No</th>
             <th>Nama Pemilik</th>
             <th>NIP</th>
+            <th>NIDN</th>
             <th>Jabatan Fungsional</th>
-            <th>Gelar</th>
             <th>Aksi</th>
           </tr>
         </thead>
@@ -40,8 +40,8 @@
               <td>{{ $i + 1 }}</td>
               <td><span id="show-gelar_depan">{{ $item->gelar_depan }}</span>{{ $item->nama_lengkap }}<span id="show-gelar_belakang">{{ $item->gelar_belakang }}</span></td>
               <td>{{ $item->NIP }}</td>
+              <td>{{ $item->NIDN }}</td>
               <td>{{ $item->pangkat->jabatan->nama_jabatan }} - {{ $item->pangkat->nama_pangkat }}</td>
-              <td>{{ $item->gelar }}</td>
               <td class="d-flex">
                 <a href="" class="btn btn-secondary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#showModal" onclick="showModal('{{ $item->id_staff }}')"><i class="fas fa-eye"></i></a>
                 <a href="" class="btn btn-primary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editModal('{{ $item->id_staff }}')"><i class="fas fa-edit"></i></a>
@@ -68,24 +68,30 @@
             <tbody>
               {{-- id_staff
                 nama_lengkap
-                gelar
+                gelar_depan
+                gelar_belakang
                 jenis_kelamin
-                jabatan_fungsional
+                id_pangkat
                 NIP
                 NIDN
                 tempat_lahir
                 tanggal_lahir
-                email_staff
                 nomor_telepon
                 fax
-                id_kantor --}}
+                alamat
+                deskripsi
+                profile_image --}}
               <tr>
                 <th>Nama Lengkap</th>
                 <td id="nama_lengkap"></td>
               </tr>
               <tr>
-                <th>Gelar</th>
-                <td id="gelar"></td>
+                <th>Gelar Depan</th>
+                <td id="gelar_depan"></td>
+              </tr>
+              <tr>
+                <th>Gelar Belakang</th>
+                <td id="gelar_belakang"></td>
               </tr>
               <tr>
                 <th>Jenis Kelamin</th>
@@ -110,6 +116,14 @@
               <tr>
                 <th>Tanggal Lahir</th>
                 <td id="tanggal_lahir"></td>
+              </tr>
+              <tr>
+                <th>Alamat</th>
+                <td id="alamat"></td>
+              </tr>
+              <tr>
+                <th>Deskripsi</th>
+                <td id="deskripsi"></td>
               </tr>
               <tr>
                 <th>Email</th>
@@ -146,18 +160,27 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+          {{-- id_staff
+            nama_lengkap
+            gelar_depan
+            gelar_belakang
+            jenis_kelamin
+            id_pangkat
+            NIP
+            NIDN
+            tempat_lahir
+            tanggal_lahir
+            nomor_telepon
+            fax
+            alamat
+            deskripsi
+            profile_image --}}
           <table class="table table-bordered">
             <tbody>
               <tr>
                 <th>Nama Lengkap</th>
                 <td>
                   <input type="text" name="nama_lengkap-add" id="nama_lengkap-add" class="form-control">
-                </td>
-              </tr>
-              <tr>
-                <th>Gelar</th>
-                <td>
-                  <input type="text" name="gelar-add" id="gelar-add" class="form-control">
                 </td>
               </tr>
               <tr>
@@ -168,48 +191,6 @@
                     <option value="l">Laki-Laki</option>
                     <option value="p">Perempuan</option>
                   </select>
-                </td>
-              </tr>
-              <tr>
-                <th>Jabatan Fungsional</th>
-                <td>
-                  <input type="text" name="jabatan_fungsional-add" id="jabatan_fungsional-add" class="form-control">
-                </td>
-              </tr>
-              <tr>
-                <th>NIP</th>
-                <td>
-                  <input type="text" name="NIP-add" id="NIP-add" class="form-control">
-                </td>
-              </tr>
-              <tr>
-                <th>NIDN</th>
-                <td>
-                  <input type="text" name="NIDN-add" id="NIDN-add" class="form-control">
-                </td>
-              </tr>
-              <tr>
-                <th>Tempat Lahir</th>
-                <td>
-                  <input type="text" name="tempat_lahir-add" id="tempat_lahir-add" class="form-control">
-                </td>
-              </tr>
-              <tr>
-                <th>Tanggal Lahir</th>
-                <td>
-                  <input type="date" name="tanggal_lahir-add" id="tanggal_lahir-add" class="form-control">
-                </td>
-              </tr>
-              <tr>
-                <th>Nomor Telepon</th>
-                <td>
-                  <input type="text" name="nomor_telepon-add" id="nomor_telepon-add" class="form-control">
-                </td>
-              </tr>
-              <tr>
-                <th>Fax</th>
-                <td>
-                  <input type="text" name="fax-add" id="fax-add" class="form-control">
                 </td>
               </tr>
               <tr>
@@ -487,20 +468,10 @@
         if(this.status == 200 && this.readyState == 4) {
           let data = JSON.parse(this.responseText);
           if(data.status == 'success') {
-            let fieldPemilik = document.getElementById('nama_lengkap-add');
             let fieldKantor = document.getElementById('nama_kantor-add');
-            fieldPemilik.innerHTML = `<option value="not-selected" selected>Pilih</option>`;
             fieldKantor.innerHTML = `<option value="not-selected" selected>Pilih</option>`;
-            data.dataStaff.forEach(element => {
-              fieldPemilik.innerHTML += `<option value="${element.id_staff}">${element.nama_lengkap}</option>`;
-            });
             data.dataKantor.forEach(element => {
               fieldKantor.innerHTML += `<option value="${element.id_kantor}">${element.nama_kantor}</option>`;
-            });
-
-            flatpickr('#tanggal_lahir-add', {
-              enableTime: false,
-              dateFormat: "Y-m-d",
             });
           }
         }
@@ -515,30 +486,14 @@
       let formData = new FormData();
 
       let fieldPemilik = document.getElementById('nama_lengkap-add').value;
-      let fieldGelar = document.getElementById('gelar-add').value;
       let fieldKelamin = document.getElementById('jenis_kelamin-add').value;
-      let fieldJabatan = document.getElementById('jabatan_fungsional-add').value;
-      let fieldNIP = document.getElementById('NIP-add').value;
-      let fieldNIDN = document.getElementById('NIDN-add').value;
-      let fieldTempatLahir = document.getElementById('tempat_lahir-add').value;
-      let fieldTanggalLahir = document.getElementById('tanggal_lahir-add').value;
-      let fieldNoTelp = document.getElementById('nomor_telepon-add').value;
-      let fieldFax = document.getElementById('fax-add').value;
       let fieldKantor = document.getElementById('nama_kantor-add').value;
       let fieldEmail = document.getElementById('email-add').value;
       let fieldPassword = document.getElementById('password-add').value;
       let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
       formData.append('nama_lengkap', fieldPemilik);
-      formData.append('gelar', fieldGelar);
       formData.append('jenis_kelamin', fieldKelamin);
-      formData.append('jabatan_fungsional', fieldJabatan);
-      formData.append('NIP', fieldNIP);
-      formData.append('NIDN', fieldNIDN);
-      formData.append('tempat_lahir', fieldTempatLahir);
-      formData.append('tanggal_lahir', fieldTanggalLahir);
-      formData.append('nomor_telepon', fieldNoTelp);
-      formData.append('fax', fieldFax);
       formData.append('nama_kantor', fieldKantor);
       formData.append('email', fieldEmail);
       formData.append('password', fieldPassword);
@@ -628,7 +583,8 @@
           let data = JSON.parse(this.responseText);
           if(data.status == 'success') {
             let fieldPemilik = document.getElementById('nama_lengkap');
-            let fieldGelar = document.getElementById('gelar');
+            let fieldGelarDepan = document.getElementById('gelar_depan');
+            let fieldGelarBelakang = document.getElementById('gelar_belakang');
             let fieldKelamin = document.getElementById('jenis_kelamin');
             let fieldJabatan = document.getElementById('jabatan_fungsional');
             let fieldNIP = document.getElementById('NIP');
@@ -639,15 +595,22 @@
             let fieldNoTelp = document.getElementById('nomor_telepon');
             let fieldFax = document.getElementById('fax');
             let fieldKantor = document.getElementById('nama_kantor');
+            let fieldAlamat = document.getElementById('alamat');
+            let fieldDeskripsi = document.getElementById('deskripsi');
 
             fieldPemilik.innerText = data.dataStaff.nama_lengkap;
-            fieldGelar.innerText = data.dataStaff.gelar;
+            if(data.dataStaff.gelar_depan == "" || data.dataStaff.gelar_depan == "-") {
+              fieldGelarDepan.innerText = "-";
+            } else {
+            fieldGelarDepan.innerText = data.dataStaff.gelar_depan;
+            }
+            fieldGelarBelakang.innerText = data.dataStaff.gelar_belakang;
             if(data.dataStaff.jenis_kelamin == 'l') {
               fieldKelamin.innerText = 'Laki-Laki';
             } else {
               fieldKelamin.innerText = 'Perempuan';
             }
-            fieldJabatan.innerText = data.dataStaff.jabatan_fungsional;
+            fieldJabatan.innerText = data.dataJabatan.nama_jabatan + " - " + data.dataPangkat.nama_pangkat + " (" + data.dataPangkat.golongan + ")";
             fieldNIP.innerText = data.dataStaff.NIP;
             fieldNIDN.innerText = data.dataStaff.NIDN;
             fieldTempatLahir.innerText = data.dataStaff.tempat_lahir;
@@ -656,6 +619,8 @@
             fieldNoTelp.innerText = data.dataStaff.nomor_telepon;
             fieldFax.innerText = data.dataStaff.fax;
             fieldKantor.innerText = data.dataKantor.nama_kantor;
+            fieldAlamat.innerText = data.dataStaff.alamat;
+            fieldDeskripsi.innerText = data.dataStaff.deskripsi;
           } else {
             Swal.fire('Kesalahan', 'Terjadi error, coba lagi nanti!', 'error');
           }

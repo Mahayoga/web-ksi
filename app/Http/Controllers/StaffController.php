@@ -124,12 +124,16 @@ class StaffController extends Controller
         $dataStaff = StaffModel::find($id);
         $dataUser = $dataStaff->users;
         $dataKantor = $dataStaff->kantor;
+        $dataPangkat = $dataStaff->pangkat;
+        $dataJabatan = $dataStaff->pangkat->jabatan;
 
         return response()->json([
             'status' => 'success',
             'dataStaff' => $dataStaff,
             'dataUser' => $dataUser,
-            'dataKantor' => $dataKantor
+            'dataKantor' => $dataKantor,
+            'dataPangkat'=> $dataPangkat,
+            'dataJabatan'=> $dataJabatan
         ]);
     }
 
