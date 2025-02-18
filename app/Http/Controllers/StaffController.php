@@ -65,15 +65,7 @@ class StaffController extends Controller
     {
         $validate = $request->validate([
             'nama_lengkap' => ['required', 'string'],
-            'gelar' => ['required', 'string'],
             'jenis_kelamin' => ['required', 'string'],
-            'jabatan_fungsional' => ['required', 'string'],
-            'NIP' => ['required', 'string'],
-            'NIDN' => ['required', 'string'],
-            'tempat_lahir' => ['required', 'string'],
-            'tanggal_lahir' => ['required', 'date'],
-            'nomor_telepon' => ['required', 'string'],
-            'fax' => ['required', 'string'],
             'nama_kantor' => ['required', 'uuid'],
             'email' => ['required', 'email'],
             'password' => ['required', 'string', 'min:8'],
@@ -81,20 +73,37 @@ class StaffController extends Controller
         try {
             $dataUUID = DB::select('SELECT UUID() as hehe')[0]->hehe;
             StaffModel::create([
+                // id_staff
+                // nama_lengkap
+                // gelar_depan
+                // gelar_belakang
+                // jenis_kelamin
+                // id_pangkat
+                // NIP
+                // NIDN
+                // tempat_lahir
+                // tanggal_lahir
+                // nomor_telepon
+                // fax
+                // alamat
+                // deskripsi
+                // profile_image
                 'id_staff' => $dataUUID,
                 'nama_lengkap' => $request->nama_lengkap,
-                'gelar' => $request->gelar,
+                'gelar_depan' => null,
+                'gelar_belakang' => null,
                 'jenis_kelamin' => $request->jenis_kelamin,
-                'jabatan_fungsional' => $request->jabatan_fungsional,
-                'NIP' => $request->NIP,
-                'NIDN' => $request->NIDN,
-                'tempat_lahir' => $request->tempat_lahir,
-                'tanggal_lahir' => $request->tanggal_lahir,
-                'nomor_telepon' => $request->nomor_telepon,
-                'fax' => $request->fax,
+                'id_pangkat' => null,
+                'NIP' => null,
+                'NIDN' => null,
+                'tempat_lahir' => null,
+                'tanggal_lahir' => null,
+                'nomor_telepon' => null,
+                'fax' => null,
+                'alamat' => null,
+                'deskripsi' => null,
                 'id_kantor' => $request->nama_kantor,
-                'profile_image' => '',
-                'profile_mime_type' => 'png'
+                'profile_image' => 'assets/img/staff/default_profile.png',
             ]);
             $dataStaff = StaffModel::find($dataUUID);
             $dataUUID = DB::select('SELECT UUID() as hehe')[0]->hehe;

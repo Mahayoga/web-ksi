@@ -39,9 +39,22 @@
             <tr>
               <td>{{ $i + 1 }}</td>
               <td><span id="show-gelar_depan">{{ $item->gelar_depan }}</span>{{ $item->nama_lengkap }}<span id="show-gelar_belakang">{{ $item->gelar_belakang }}</span></td>
-              <td>{{ $item->NIP }}</td>
-              <td>{{ $item->NIDN }}</td>
-              <td>{{ $item->pangkat->jabatan->nama_jabatan }} - {{ $item->pangkat->nama_pangkat }}</td>
+              @if ($item->NIP == null)
+                <td><i>(Belum diatur)</i></td>
+              @else
+                <td>{{ $item->NIP }}</td>
+              @endif
+              @if ($item->NIDN == null)
+                <td><i>(Belum diatur)</i></td>
+              @else
+                <td>{{ $item->NIDN }}</td>
+              @endif
+              @if ($item->pangkat == null)
+                <td><i>(Belum diatur)</i></td>
+              @else
+                <td>{{ $item->pangkat->jabatan->nama_jabatan }}</td>
+              @endif
+              <td>{{ $item->pangkat }}</td>
               <td class="d-flex">
                 <a href="" class="btn btn-secondary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#showModal" onclick="showModal('{{ $item->id_staff }}')"><i class="fas fa-eye"></i></a>
                 <a href="" class="btn btn-primary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editModal('{{ $item->id_staff }}')"><i class="fas fa-edit"></i></a>
