@@ -38,7 +38,7 @@
           @foreach ($dataStaff as $item)
             <tr>
               <td>{{ $i + 1 }}</td>
-              <td><span id="show-gelar_depan">{{ $item->gelar_depan }}</span>{{ $item->nama_lengkap }}<span id="show-gelar_belakang">{{ $item->gelar_belakang }}</span></td>
+              <td><span class="show-gelar_depan">{{ $item->gelar_depan }}</span>{{ $item->nama_lengkap }}<span class="show-gelar_belakang">{{ $item->gelar_belakang }}</span></td>
               @if ($item->NIP == null)
                 <td><i>(Belum diatur)</i></td>
               @else
@@ -52,9 +52,8 @@
               @if ($item->pangkat == null)
                 <td><i>(Belum diatur)</i></td>
               @else
-                <td>{{ $item->pangkat->jabatan->nama_jabatan }}</td>
+                <td>{{ $item->pangkat->jabatan->nama_jabatan }} - {{ $item->pangkat->nama_pangkat }} ({{ $item->pangkat->golongan }})</td>
               @endif
-              <td>{{ $item->pangkat }}</td>
               <td class="d-flex">
                 <a href="" class="btn btn-secondary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#showModal" onclick="showModal('{{ $item->id_staff }}')"><i class="fas fa-eye"></i></a>
                 <a href="" class="btn btn-primary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editModal('{{ $item->id_staff }}')"><i class="fas fa-edit"></i></a>
@@ -253,12 +252,6 @@
                 </td>
               </tr>
               <tr>
-                <th>Gelar</th>
-                <td>
-                  <input type="text" name="gelar-edit" id="gelar-edit" class="form-control">
-                </td>
-              </tr>
-              <tr>
                 <th>Jenis Kelamin</th>
                 <td id="jenis_kelamin">
                   <select name="jenis_kelamin-edit" id="jenis_kelamin-edit" class="form-select">
@@ -266,48 +259,6 @@
                     <option value="l">Laki-Laki</option>
                     <option value="p">Perempuan</option>
                   </select>
-                </td>
-              </tr>
-              <tr>
-                <th>Jabatan Fungsional</th>
-                <td>
-                  <input type="text" name="jabatan_fungsional-edit" id="jabatan_fungsional-edit" class="form-control">
-                </td>
-              </tr>
-              <tr>
-                <th>NIP</th>
-                <td>
-                  <input type="text" name="NIP-edit" id="NIP-edit" class="form-control">
-                </td>
-              </tr>
-              <tr>
-                <th>NIDN</th>
-                <td>
-                  <input type="text" name="NIDN-edit" id="NIDN-edit" class="form-control">
-                </td>
-              </tr>
-              <tr>
-                <th>Tempat Lahir</th>
-                <td>
-                  <input type="text" name="tempat_lahir-edit" id="tempat_lahir-edit" class="form-control">
-                </td>
-              </tr>
-              <tr>
-                <th>Tanggal Lahir</th>
-                <td>
-                  <input type="date" name="tanggal_lahir-edit" id="tanggal_lahir-edit" class="form-control">
-                </td>
-              </tr>
-              <tr>
-                <th>Nomor Telepon</th>
-                <td>
-                  <input type="text" name="nomor_telepon-edit" id="nomor_telepon-edit" class="form-control">
-                </td>
-              </tr>
-              <tr>
-                <th>Fax</th>
-                <td>
-                  <input type="text" name="fax-edit" id="fax-edit" class="form-control">
                 </td>
               </tr>
               <tr>
@@ -342,6 +293,22 @@
   <script>
     let idEdit = null;
     let idHapus = null;
+    function setGelarInName() {
+      let gelarDepan = document.getElementsByClassName('show-gelar_depan');
+      let gelarBelakang = document.getElementsByClassName('show-gelar_belakang');
+
+      for(var i = 0; i < gelarDepan.length; i++) {
+        if(gelarDepan[i].innerText != '' || gelarDepan[i].innerText != '-' || gelarDepan[i].innerText != null) {
+          gelarDepan[i].innerText = gelarDepan[i].innerText + ' ';
+        }
+      }
+      for(var i = 0; i < gelarBelakang.length; i++) {
+        if(gelarBelakang[i].innerText != '' || gelarBelakang[i].innerText != '-' || gelarBelakang[i].innerText != null) {
+          gelarBelakang[i].innerText = ' ' + gelarBelakang[i].innerText ;
+        }
+      }
+    }
+
     function deleteModal(id) {
       idHapus = id;
       let xhttp = new XMLHttpRequest();
@@ -383,21 +350,12 @@
           if(data.status == 'success') {
             idEdit = id;
             let fieldPemilik = document.getElementById('nama_lengkap-edit');
-            let fieldGelar = document.getElementById('gelar-edit');
             let fieldKelamin = document.getElementById('jenis_kelamin-edit');
-            let fieldJabatan = document.getElementById('jabatan_fungsional-edit');
-            let fieldNIP = document.getElementById('NIP-edit');
-            let fieldNIDN = document.getElementById('NIDN-edit');
-            let fieldTempatLahir = document.getElementById('tempat_lahir-edit');
-            let fieldTanggalLahir = document.getElementById('tanggal_lahir-edit');
-            let fieldNoTelp = document.getElementById('nomor_telepon-edit');
-            let fieldFax = document.getElementById('fax-edit');
             let fieldKantor = document.getElementById('nama_kantor-edit');
             let fieldEmail = document.getElementById('email-edit');
             let fieldPassword = document.getElementById('password-edit');
 
             fieldPemilik.value = data.dataStaff.nama_lengkap;
-            fieldGelar.value = data.dataStaff.gelar;
 
             if(data.dataStaff.jenis_kelamin == 'l') {
               fieldKelamin.innerHTML = `
@@ -412,14 +370,6 @@
                 <option value="p" selected>Perempuan</option>
               `;
             }
-
-            fieldJabatan.value = data.dataStaff.jabatan_fungsional;
-            fieldNIP.value = data.dataStaff.NIP;
-            fieldNIDN.value = data.dataStaff.NIDN;
-            fieldTempatLahir.value = data.dataStaff.tempat_lahir;
-            fieldTanggalLahir.value = data.dataStaff.tanggal_lahir;
-            fieldNoTelp.value = data.dataStaff.nomor_telepon;
-            fieldFax.value = data.dataStaff.fax;
 
             fieldKantor.innerHTML = `<option value="not-selected">Pilih</option>`;
             data.dataKantor.forEach(element => {
@@ -451,21 +401,33 @@
             tbody.innerHTML = '';
             let i = 0;
             data.dataStaff.forEach(element => {
-            tbody.innerHTML += `
-              <tr>
-                <td>${ i + 1 }</td>
-                <td>${ element.nama_lengkap }</td>
-                <td>${ element.NIP }</td>
-                <td>${ element.jabatan_fungsional }</td>
-                <td>${ element.gelar }</td>
-                <td class="d-flex">
-                  <a href="" class="btn btn-secondary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#showModal" onclick="showModal('${ element.id_staff }')"><i class="fas fa-eye"></i></a>
-                  <a href="" class="btn btn-primary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editModal('${ element.id_staff }')"><i class="fas fa-edit"></i></a>
-                  <a href="" class="btn btn-danger p-2 mx-1" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteModal('${ element.id_staff }')"><i class="fas fa-trash-can"></i></a>
-                </td>
-              </tr>
-            `;
-            i++;
+              let newNIP = '<i>(Belum diatur)</i>';
+              let newNIDN = '<i>(Belum diatur)</i>';
+              let newPangkat = '<i>(Belum diatur)</i>';
+              if(element.NIP != null || element.NIP != undefined) {
+                newNIP = element.NIP;
+              }
+              if(element.NIDN != null || element.NIDN != undefined) {
+                newNIDN = element.NIDN;
+              }
+              if(element.id_pangkat != null || element.id_pangkat != undefined) {
+                newPangkat = `${ data.dataJabatan[i].nama_jabatan } - ${ data.dataPangkat[i].nama_pangkat } (${ data.dataPangkat[i].golongan })`;
+              }
+              tbody.innerHTML += `
+                <tr>
+                  <td>${ i + 1 }</td>
+                  <td>${ element.nama_lengkap }</td>
+                  <td>${ newNIP }</td>
+                  <td>${ newNIDN }</td>
+                  <td>${ newPangkat }</td>
+                  <td class="d-flex">
+                    <a href="" class="btn btn-secondary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#showModal" onclick="showModal('${ element.id_staff }')"><i class="fas fa-eye"></i></a>
+                    <a href="" class="btn btn-primary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editModal('${ element.id_staff }')"><i class="fas fa-edit"></i></a>
+                    <a href="" class="btn btn-danger p-2 mx-1" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="deleteModal('${ element.id_staff }')"><i class="fas fa-trash-can"></i></a>
+                  </td>
+                </tr>
+              `;
+              i++;
             });
           }
         }
@@ -533,30 +495,14 @@
       let formData = new FormData();
 
       let fieldPemilik = document.getElementById('nama_lengkap-edit').value;
-      let fieldGelar = document.getElementById('gelar-edit').value;
       let fieldKelamin = document.getElementById('jenis_kelamin-edit').value;
-      let fieldJabatan = document.getElementById('jabatan_fungsional-edit').value;
-      let fieldNIP = document.getElementById('NIP-edit').value;
-      let fieldNIDN = document.getElementById('NIDN-edit').value;
-      let fieldTempatLahir = document.getElementById('tempat_lahir-edit').value;
-      let fieldTanggalLahir = document.getElementById('tanggal_lahir-edit').value;
-      let fieldNoTelp = document.getElementById('nomor_telepon-edit').value;
-      let fieldFax = document.getElementById('fax-edit').value;
       let fieldKantor = document.getElementById('nama_kantor-edit').value;
       let fieldEmail = document.getElementById('email-edit').value;
       let fieldPassword = document.getElementById('password-edit').value;
       let token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
       formData.append('nama_lengkap', fieldPemilik);
-      formData.append('gelar', fieldGelar);
       formData.append('jenis_kelamin', fieldKelamin);
-      formData.append('jabatan_fungsional', fieldJabatan);
-      formData.append('NIP', fieldNIP);
-      formData.append('NIDN', fieldNIDN);
-      formData.append('tempat_lahir', fieldTempatLahir);
-      formData.append('tanggal_lahir', fieldTanggalLahir);
-      formData.append('nomor_telepon', fieldNoTelp);
-      formData.append('fax', fieldFax);
       formData.append('nama_kantor', fieldKantor);
       formData.append('email', fieldEmail);
       formData.append('password', fieldPassword);
@@ -612,12 +558,16 @@
             let fieldDeskripsi = document.getElementById('deskripsi');
 
             fieldPemilik.innerText = data.dataStaff.nama_lengkap;
-            if(data.dataStaff.gelar_depan == "" || data.dataStaff.gelar_depan == "-") {
+            if(data.dataStaff.gelar_depan == "" || data.dataStaff.gelar_depan == "-" || data.dataStaff.gelar_depan == null) {
               fieldGelarDepan.innerText = "-";
             } else {
-            fieldGelarDepan.innerText = data.dataStaff.gelar_depan;
+              fieldGelarDepan.innerText = data.dataStaff.gelar_depan;
             }
-            fieldGelarBelakang.innerText = data.dataStaff.gelar_belakang;
+            if(data.dataStaff.gelar_belakang == "" || data.dataStaff.gelar_belakang == "-" || data.dataStaff.gelar_belakang == null) {
+              fieldGelarBelakang.innerText = "-";
+            } else {
+              fieldGelarBelakang.innerText = data.dataStaff.gelar_belakang;
+            }
             if(data.dataStaff.jenis_kelamin == 'l') {
               fieldKelamin.innerText = 'Laki-Laki';
             } else {
@@ -644,5 +594,7 @@
       xhttp.open('GET', route.replace('__ID__', id), true);
       xhttp.send();
     }
+  
+    setGelarInName();
   </script>
 @endsection

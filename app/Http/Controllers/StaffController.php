@@ -14,9 +14,17 @@ class StaffController extends Controller
         $dataStaff = StaffModel::select()->get();
         $dataKantor = [];
         $dataUser = [];
+        $dataPangkat = [];
+        $dataJabatan = [];
         foreach($dataStaff as $item) {
             $dataKantor[] = $item->kantor;
             $dataUser[] = $item->users;
+            $dataPangkat[] = $item->pangkat;
+            if($item->pangkat != null) {
+                $dataJabatan[] = $item->pangkat->jabatan;
+            } else {
+                $dataJabatan[] = null;
+            }
         }
 
         return response()->json([
@@ -24,6 +32,8 @@ class StaffController extends Controller
             'dataStaff' => $dataStaff,
             'dataKantor' => $dataKantor,
             'dataUser' => $dataUser,
+            'dataPangkat' => $dataPangkat,
+            'dataJabatan'=> $dataJabatan
         ]);
     }
 
@@ -134,7 +144,10 @@ class StaffController extends Controller
         $dataUser = $dataStaff->users;
         $dataKantor = $dataStaff->kantor;
         $dataPangkat = $dataStaff->pangkat;
-        $dataJabatan = $dataStaff->pangkat->jabatan;
+        $dataJabatan = null;
+        if($dataStaff->pangkat != null) {
+            $dataJabatan = $dataStaff->pangkat->jabatan;
+        }
 
         return response()->json([
             'status' => 'success',
@@ -170,15 +183,7 @@ class StaffController extends Controller
     {
         $validate = $request->validate([
             'nama_lengkap' => ['required', 'string'],
-            'gelar' => ['required', 'string'],
             'jenis_kelamin' => ['required', 'string'],
-            'jabatan_fungsional' => ['required', 'string'],
-            'NIP' => ['required', 'string'],
-            'NIDN' => ['required', 'string'],
-            'tempat_lahir' => ['required', 'string'],
-            'tanggal_lahir' => ['required', 'date'],
-            'nomor_telepon' => ['required', 'string'],
-            'fax' => ['required', 'string'],
             'nama_kantor' => ['required', 'uuid'],
             'email' => ['required', 'email'],
         ]);
@@ -186,15 +191,7 @@ class StaffController extends Controller
             $dataStaff = StaffModel::find($id);
             $dataStaff->update([
                 'nama_lengkap' => $request->nama_lengkap,
-                'gelar' => $request->gelar,
                 'jenis_kelamin' => $request->jenis_kelamin,
-                'jabatan_fungsional' => $request->jabatan_fungsional,
-                'NIP' => $request->NIP,
-                'NIDN' => $request->NIDN,
-                'tempat_lahir' => $request->tempat_lahir,
-                'tanggal_lahir' => $request->tanggal_lahir,
-                'nomor_telepon' => $request->nomor_telepon,
-                'fax' => $request->fax,
                 'id_kantor' => $request->nama_kantor
             ]);
             $dataUser = $dataStaff->users;
