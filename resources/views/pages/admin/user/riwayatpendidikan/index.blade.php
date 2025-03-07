@@ -22,11 +22,11 @@
           @foreach ($dataRiwayat as $item)
             <tr>
               <td>{{ $i }}</td>
-              <td>{{ $dataPemilik[$i - 1]->nama_lengkap }}</td>
+              <td>{{ $dataPemilik[$i - 1]->gelar_depan }} {{ $dataPemilik[$i - 1]->nama_lengkap }} {{ $dataPemilik[$i - 1]->gelar_belakang }}</td>
               <td>{{ $dataKampus[$i - 1]->nama_kampus }}</td>
               <td>{{ $dataBidangIlmu[$i - 1]->nama_bidang_ilmu }}</td>
               <td>{{ $dataBidangIlmu[$i - 1]->jenjang }}</td>
-              <td>{{ $dataPembimbing[$i - 1]->nama_lengkap }} {{ $dataPembimbing[$i - 1]->gelar }}</td>
+              <td>{{ $dataPembimbing[$i - 1]->gelar_depan }} {{ $dataPembimbing[$i - 1]->nama_lengkap }} {{ $dataPembimbing[$i - 1]->gelar_belakang }}</td>
               <td class="d-flex">
                 <a href="" class="btn btn-secondary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#showModal" onclick="showModalRiwayat('{{ $item->id_riwayat }}')"><i class="fas fa-eye"></i></a>
                 <a href="" class="btn btn-primary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editModalRiwayat('{{ $item->id_riwayat }}')"><i class="fas fa-edit"></i></a>
@@ -250,6 +250,10 @@
   <script>
     let idEdit = null;
     let idHapus = null;
+    function setGelarInName(gelar_depan, nama, gelar_belakang) {
+      return gelar_depan + " " + nama + " " + gelar_belakang;
+    }
+
     function deleteModalRiwayat(id) {
       idHapus = id;
       let xhttp = new XMLHttpRequest();
@@ -289,16 +293,17 @@
       xhttp.onreadystatechange = function() {
         if(this.status == 200 && this.readyState == 4) {
           let data = JSON.parse(this.responseText);
+          console.log(data);
           tbody.innerHTML = "";
           for(var i = 0; i < data.dataRiwayat.length; i++) {
             tbody.innerHTML += `
               <tr>
                 <td>${i + 1}</td>
-                <td>${data.dataPemilik[i].nama_lengkap }</td>
-                <td>${data.dataKampus[i].nama_kampus }</td>
-                <td>${data.dataBidangIlmu[i].nama_bidang_ilmu }</td>
-                <td>${data.dataBidangIlmu[i].jenjang }</td>
-                <td>${data.dataPembimbing[i].nama_lengkap } ${data.dataPembimbing[i].gelar }</td>
+                <td>${ setGelarInName(data.dataPemilik[i].gelar_depan, data.dataPemilik[i].nama_lengkap, data.dataPemilik[i].gelar_belakang) }</td>
+                <td>${ data.dataKampus[i].nama_kampus }</td>
+                <td>${ data.dataBidangIlmu[i].nama_bidang_ilmu }</td>
+                <td>${ data.dataBidangIlmu[i].jenjang }</td>
+                <td>${ setGelarInName(data.dataPembimbing[i].gelar_depan, data.dataPembimbing[i].nama_lengkap, data.dataPembimbing[i].gelar_belakang) }</td>
                 <td class="d-flex">
                   <a href="" class="btn btn-secondary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#showModal" onclick="showModalRiwayat('${ data.dataRiwayat[i].id_riwayat }')"><i class="fas fa-eye"></i></a>
                   <a href="" class="btn btn-primary p-2 mx-1" data-bs-toggle="modal" data-bs-target="#editModal" onclick="editModalRiwayat('${ data.dataRiwayat[i].id_riwayat }')"><i class="fas fa-edit"></i></a>
@@ -307,6 +312,7 @@
               </tr>
             `;
           }
+          setGelarInName();
         }
       };
 
@@ -497,7 +503,7 @@
             pembimbing.removeAttribute('disabled');
             pembimbing.innerHTML = `<option value="not-selected">Pilih</option>`;
             data.dataPembimbing.forEach(element => { 
-              pembimbing.innerHTML += `<option value="${element.id_staff}">${element.nama_lengkap} ${element.gelar}</option>`;
+              pembimbing.innerHTML += `<option value="${element.id_staff}">${setGelarInName(element.gelar_depan, element.nama_lengkap, element.gelar_belakang)}</option>`;
             });
           }
         };
@@ -511,7 +517,6 @@
       xhttp.open('GET', route.replace('__ID__', pemilik.value), true);
       xhttp.send();
     }
-
 
     function simpanDataRiwayatEdit() {
       let xhttp = new XMLHttpRequest();
@@ -698,7 +703,7 @@
             pembimbing.removeAttribute('disabled');
             pembimbing.innerHTML = `<option value="not-selected">Pilih</option>`;
             data.dataPembimbing.forEach(element => { 
-              pembimbing.innerHTML += `<option value="${element.id_staff}">${element.nama_lengkap} ${element.gelar}</option>`;
+              pembimbing.innerHTML += `<option value="${element.id_staff}">${setGelarInName(element.gelar_depan, element.nama_lengkap, element.gelar_belakang)}</option>`;
             });
           }
         };
@@ -713,20 +718,19 @@
       xhttp.send();
     }
 
-
     function showModalRiwayat(id) {
       let xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200) {
           let data = JSON.parse(this.responseText);
 
-          document.getElementById('nama_pemilik').innerText = data.dataPemilik.nama_lengkap;
+          document.getElementById('nama_pemilik').innerText = setGelarInName(data.dataPemilik.gelar_depan, data.dataPemilik.nama_lengkap, data.dataPemilik.gelar_belakang);
           document.getElementById('nama_perguruan_tinggi').innerText = data.dataKampus.nama_kampus;
           document.getElementById('bidang_ilmu').innerText = data.dataBidangIlmu.nama_bidang_ilmu;
           document.getElementById('periode').innerText = data.dataRiwayat.tahun_masuk + " - " + data.dataRiwayat.tahun_lulus;
           document.getElementById('gelar').innerText = data.dataBidangIlmu.jenjang;
           document.getElementById('penelitian').innerText = data.dataPenelitian.judul_penelitian;
-          document.getElementById('pembimbing').innerText = data.dataPembimbing.nama_lengkap + " " + data.dataPembimbing.gelar;
+          document.getElementById('pembimbing').innerText = setGelarInName(data.dataPembimbing.gelar_depan, data.dataPembimbing.nama_lengkap, data.dataPembimbing.gelar_belakang);
         }
       };
       let data = "{{ route('riwayatpendidikan.show', ['riwayatpendidikan' => '__ID__']) }}";
@@ -748,7 +752,7 @@
 
           data.dataPemilik.forEach(element => {
             optionPemilikRiwayat.innerHTML += `
-              <option value="${element.id_staff}">${element.nama_lengkap}</option>
+              <option value="${element.id_staff}">${setGelarInName(element.gelar_depan, element.nama_lengkap, element.gelar_belakang)}</option>
             `;
           });
           data.dataKampus.forEach(element => {
@@ -777,7 +781,7 @@
           let optionPenelitian = document.getElementById('penelitian-edit');
           let optionPembimbing = document.getElementById('pembimbing-edit');
 
-          optionPemilikRiwayat.innerHTML = `<option value="${data.dataPemilik.id_staff}" selected>${data.dataPemilik.nama_lengkap}</option>`;
+          optionPemilikRiwayat.innerHTML = `<option value="${data.dataPemilik.id_staff}" selected>${setGelarInName(data.dataPemilik.gelar_depan, data.dataPemilik.nama_lengkap, data.dataPemilik.gelar_belakang)}</option>`;
           optionKampus.innerHTML = `<option value="${data.dataKampusEdit.id_kampus}" selected>${data.dataKampusEdit.nama_kampus}</option>`;
           optionBidangilmu.innerHTML = `<option value="${data.dataBidangIlmuEdit.id_bidang_ilmu}" selected>${data.dataBidangIlmuEdit.nama_bidang_ilmu}</option>`;
           optionGelar.value = `${data.dataBidangIlmuEdit.jenjang}`;

@@ -416,7 +416,7 @@
               tbody.innerHTML += `
                 <tr>
                   <td>${ i + 1 }</td>
-                  <td>${ element.nama_lengkap }</td>
+                  <td><span class="show-gelar_depan">${ element.gelar_depan }</span>${ element.nama_lengkap }<span class="show-gelar_belakang">${ element.gelar_belakang }</span></td>
                   <td>${ newNIP }</td>
                   <td>${ newNIDN }</td>
                   <td>${ newPangkat }</td>
@@ -429,6 +429,7 @@
               `;
               i++;
             });
+            setGelarInName();
           }
         }
       };
@@ -573,17 +574,62 @@
             } else {
               fieldKelamin.innerText = 'Perempuan';
             }
-            fieldJabatan.innerText = data.dataJabatan.nama_jabatan + " - " + data.dataPangkat.nama_pangkat + " (" + data.dataPangkat.golongan + ")";
-            fieldNIP.innerText = data.dataStaff.NIP;
-            fieldNIDN.innerText = data.dataStaff.NIDN;
-            fieldTempatLahir.innerText = data.dataStaff.tempat_lahir;
-            fieldTanggalLahir.innerText = data.dataStaff.tanggal_lahir;
-            fieldEmail.innerText = data.dataUser.email;
-            fieldNoTelp.innerText = data.dataStaff.nomor_telepon;
-            fieldFax.innerText = data.dataStaff.fax;
+            if(data.dataJabatan == "" || data.dataJabatan == "-" || data.dataJabatan == null) {
+              fieldJabatan.innerText = "-";
+            } else {
+              fieldJabatan.innerText = data.dataJabatan.nama_jabatan + " - " + data.dataPangkat.nama_pangkat + " (" + data.dataPangkat.golongan + ")";
+            }
+            if(data.dataStaff.NIP == "" || data.dataStaff.NIP == "-" || data.dataStaff.NIP == null) {
+              fieldNIP.innerText = "-";
+            } else {
+              fieldNIP.innerText = data.dataStaff.NIP;
+            }
+            if(data.dataStaff.NIDN == "" || data.dataStaff.NIDN == "-" || data.dataStaff.NIDN == null) {
+              fieldNIDN.innerText = "-";
+            } else {
+              fieldNIDN.innerText = data.dataStaff.NIDN;
+            }
+            if(data.dataStaff.tempat_lahir == "" || data.dataStaff.tempat_lahir == "-" || data.dataStaff.tempat_lahir == null) {
+              fieldTempatLahir.innerText = "-";
+            } else {
+              fieldTempatLahir.innerText = data.dataStaff.tempat_lahir;
+            }
+            if(data.dataStaff.tanggal_lahir == "" || data.dataStaff.tanggal_lahir == "-" || data.dataStaff.tanggal_lahir == null) {
+              fieldTanggalLahir.innerText = "-";
+            } else {
+              fieldTanggalLahir.innerText = data.dataStaff.tanggal_lahir;
+            }
+            if(data.dataUser == "" || data.dataUser == "-" || data.dataUser == null) {
+              fieldEmail.innerText = "-";
+            } else {
+              fieldEmail.innerText = data.dataUser.email;
+            }
+            if(data.dataStaff.nomor_telepon == "" || data.dataStaff.nomor_telepon == "-" || data.dataStaff.nomor_telepon == null) {
+              fieldNoTelp.innerText = "-";
+            } else {
+              fieldNoTelp.innerText = data.dataStaff.nomor_telepon;
+            }
+            if(data.dataStaff.fax == "" || data.dataStaff.fax == "-" || data.dataStaff.fax == null) {
+              fieldFax.innerText = "-";
+            } else {
+              fieldFax.innerText = data.dataStaff.fax;
+            }
+            if(data.dataStaff.fax == "" || data.dataStaff.fax == "-" || data.dataStaff.fax == null) {
+              fieldFax.innerText = "-";
+            } else {
+              fieldFax.innerText = data.dataStaff.fax;
+            }
+            if(data.dataStaff.alamat == "" || data.dataStaff.alamat == "-" || data.dataStaff.alamat == null) {
+              fieldAlamat.innerText = "-";
+            } else {
+              fieldAlamat.innerText = data.dataStaff.alamat;
+            }
+            if(data.dataStaff.deskripsi == "" || data.dataStaff.deskripsi == "-" || data.dataStaff.deskripsi == null) {
+              fieldDeskripsi.innerText = "-";
+            } else {
+              fieldDeskripsi.innerText = data.dataStaff.deskripsi;
+            }
             fieldKantor.innerText = data.dataKantor.nama_kantor;
-            fieldAlamat.innerText = data.dataStaff.alamat;
-            fieldDeskripsi.innerText = data.dataStaff.deskripsi;
           } else {
             Swal.fire('Kesalahan', 'Terjadi error, coba lagi nanti!', 'error');
           }
