@@ -26,7 +26,7 @@
           @foreach ($dataPenelitian as $item)
             <tr>
               <td>{{ $i + 1 }}</td>
-              <td>{{ $dataStaff[$i]->nama_lengkap }} {{ $dataStaff[$i]->gelar }}</td>
+              <td>{{ $dataStaff[$i]->gelar_depan }} {{ $dataStaff[$i]->nama_lengkap }} {{ $dataStaff[$i]->gelar_belakang }}</td>
               <td>{{ $item->judul_penelitian }}</td>
               <td>{{ $item->sumber_pendanaan }}</td>
               <td class="d-flex">
@@ -179,6 +179,10 @@
   <script>
     let idEdit = null;
     let idHapus = null;
+    function setGelarInName(gelar_depan, nama, gelar_belakang) {
+      return gelar_depan + " " + nama + " " + gelar_belakang;
+    }
+
     function deleteModal(id) {
       idHapus = id;
       let xhttp = new XMLHttpRequest();
@@ -224,7 +228,7 @@
             let fieldSumberDana = document.getElementById('sumber_pendanaan-edit');
             let fieldTahun = document.getElementById('tahun_penelitian-edit');
 
-            fieldPemilik.innerHTML = `<option value="${data.dataStaff.id_staff}">${data.dataStaff.nama_lengkap} ${data.dataStaff.gelar}</option>`;
+            fieldPemilik.innerHTML = `<option value="${data.dataStaff.id_staff}">${setGelarInName(data.dataStaff.gelar_depan, data.dataStaff.nama_lengkap, data.dataStaff.gelar_belakang)}</option>`;
             fieldJudul.value = data.dataPenelitian.judul_penelitian;
             fieldSumberDana.value = data.dataPenelitian.sumber_pendanaan;
 
@@ -264,7 +268,7 @@
             tbody.innerHTML += `
               <tr>
                 <td>${ i + 1 }</td>
-                <td>${ data.dataStaff[i].nama_lengkap } ${ data.dataStaff[i].gelar }</td>
+                <td>${ setGelarInName(data.dataStaff[i].gelar_depan, data.dataStaff[i].nama_lengkap, data.dataStaff[i].gelar_belakang) }</td>
                 <td>${ element.judul_penelitian }</td>
                 <td>${ element.sumber_pendanaan }</td>
                 <td class="d-flex">
@@ -293,7 +297,7 @@
             let fieldPemilik = document.getElementById('nama_pemilik-add');
             fieldPemilik.innerHTML = `<option value="not-selected" selected>Pilih</option>`;
             data.dataStaff.forEach(element => {
-              fieldPemilik.innerHTML += `<option value="${element.id_staff}">${element.nama_lengkap}</option>`;
+              fieldPemilik.innerHTML += `<option value="${element.id_staff}">${setGelarInName(element.gelar_depan, element.nama_lengkap, element.gelar_belakang)}</option>`;
             });
             let tahun = document.getElementById('tahun_penelitian-add');
             let date = new Date();
@@ -399,7 +403,7 @@
             let fieldPendanaan = document.getElementById('sumber_pendanaan');
             let fieldTahun = document.getElementById('tahun_penelitian');
 
-            fieldPemilik.innerText = data.dataStaff.nama_lengkap + " " + data.dataStaff.gelar;
+            fieldPemilik.innerText = setGelarInName(data.dataStaff.gelar_depan, data.dataStaff.nama_lengkap, data.dataStaff.gelar_belakang);
             fieldJudul.innerText = data.dataPenelitian.judul_penelitian;
             fieldPendanaan.innerText = data.dataPenelitian.sumber_pendanaan;
             fieldTahun.innerText = data.dataPenelitian.tahun_penelitian;
