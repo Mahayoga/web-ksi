@@ -28,7 +28,7 @@
           @foreach ($dataSeminar as $item)
             <tr>
               <td>{{ $i + 1 }}</td>
-              <td>{{ $dataStaff[$i]->nama_lengkap }} {{ $dataStaff[$i]->gelar }}</td>
+              <td>{{ $dataStaff[$i]->gelar_depan }} {{ $dataStaff[$i]->nama_lengkap }} {{ $dataStaff[$i]->gelar_belakang }}</td>
               <td>{{ $item->nama_pertemuan }}</td>
               <td>{{ $item->judul_seminar }}</td>
               <td class="d-flex">
@@ -217,6 +217,11 @@
   <script>
     let idEdit = null;
     let idHapus = null;
+
+    function setGelarInName(gelar_depan, nama, gelar_belakang) {
+      return gelar_depan + " " + nama + " " + gelar_belakang;
+    }
+
     function deleteModal(id) {
       idHapus = id;
       let xhttp = new XMLHttpRequest();
@@ -264,7 +269,7 @@
             let fieldTempat = document.getElementById('tempat-edit');
             let fieldLink = document.getElementById('link_seminar-edit');
 
-            fieldPemilik.innerHTML = `<option value="${data.dataStaff.id_staff}">${data.dataStaff.nama_lengkap} ${data.dataStaff.gelar}</option>`;
+            fieldPemilik.innerHTML = `<option value="${data.dataStaff.id_staff}">${setGelarInName(data.dataStaff.gelar_depan, data.dataStaff.nama_lengkap, data.dataStaff.gelar_belakang)}</option>`;
             fieldPertemuan.value = data.dataSeminar.nama_pertemuan;
             fieldJudul.value = data.dataSeminar.judul_seminar;
             fieldTempat.value = data.dataSeminar.tempat;
@@ -306,7 +311,7 @@
             tbody.innerHTML += `
               <tr>
                 <td>${ i + 1 }</td>
-                <td>${ data.dataStaff[i].nama_lengkap } ${ data.dataStaff[i].gelar }</td>
+                <td>${ setGelarInName(data.dataStaff[i].gelar_depan, data.dataStaff[i].nama_lengkap, data.dataStaff[i].gelar_belakang) }</td>
                 <td>${ element.nama_pertemuan }</td>
                 <td>${ element.judul_seminar }</td>
                 <td class="d-flex">
@@ -335,7 +340,7 @@
             let fieldPemilik = document.getElementById('nama_pemilik-add');
             fieldPemilik.innerHTML = `<option value="not-selected" selected>Pilih</option>`;
             data.dataStaff.forEach(element => {
-              fieldPemilik.innerHTML += `<option value="${element.id_staff}">${element.nama_lengkap}</option>`;
+              fieldPemilik.innerHTML += `<option value="${element.id_staff}">${setGelarInName(element.gelar_depan, element.nama_lengkap, element.gelar_belakang)}</option>`;
             });
 
             let tahun = document.getElementById('tahun-add');
@@ -450,7 +455,7 @@
             let fieldTempat = document.getElementById('tempat');
             let fieldLink = document.getElementById('link_seminar');
 
-            fieldPemilik.innerText = data.dataStaff.nama_lengkap + " " + data.dataStaff.gelar;
+            fieldPemilik.innerText = setGelarInName(data.dataStaff.gelar_depan, data.dataStaff.nama_lengkap, data.dataStaff.gelar_belakang);
             fieldPertemuan.innerText = data.dataSeminar.nama_pertemuan;
             fieldJudul.innerText = data.dataSeminar.judul_seminar;
             fieldTahun.innerText = data.dataSeminar.tahun;
