@@ -27,7 +27,7 @@
           @foreach ($dataPenghargaan as $item)
             <tr>
               <td>{{ $i + 1 }}</td>
-              <td>{{ $dataStaff[$i]->nama_lengkap }} {{ $dataStaff[$i]->gelar }}</td>
+              <td>{{ $dataStaff[$i]->gelar_depan }} {{ $dataStaff[$i]->nama_lengkap }} {{ $dataStaff[$i]->gelar_belakang }}</td>
               <td>{{ $item->jenis_penghargaan }}</td>
               <td>{{ $dataKampus[$i]->nama_kampus }}</td>
               <td class="d-flex">
@@ -197,6 +197,11 @@
   <script>
     let idEdit = null;
     let idHapus = null;
+
+    function setGelarInName(gelar_depan, nama, gelar_belakang) {
+      return gelar_depan + " " + nama + " " + gelar_belakang;
+    }
+
     function deleteModal(id) {
       idHapus = id;
       let xhttp = new XMLHttpRequest();
@@ -243,7 +248,7 @@
             let fieldPenghargaan = document.getElementById('penghargaan-edit');
             let fieldTahun = document.getElementById('tahun-edit');
 
-            fieldPemilik.innerHTML = `<option value="${data.dataStaff.id_staff}">${data.dataStaff.nama_lengkap} ${data.dataStaff.gelar}</option>`;
+            fieldPemilik.innerHTML = `<option value="${data.dataStaff.id_staff}">${setGelarInName(data.dataStaff.gelar_depan, data.dataStaff.nama_lengkap, data.dataStaff.gelar_belakang)}</option>`;
             fieldJenis.value = data.dataPenghargaan.jenis_penghargaan;
 
             fieldPemberi.innerHTML = `<option value="not-selected">Pilih</option>`;
@@ -293,7 +298,7 @@
             tbody.innerHTML += `
               <tr>
                 <td>${ i + 1 }</td>
-                <td>${ data.dataStaff[i].nama_lengkap } ${ data.dataStaff[i].gelar }</td>
+                <td>${ setGelarInName(data.dataStaff[i].gelar_depan, data.dataStaff[i].nama_lengkap, data.dataStaff[i].gelar_belakang) }</td>
                 <td>${ element.jenis_penghargaan }</td>
                 <td>${ data.dataKampus[i].nama_kampus }</td>
                 <td class="d-flex">
@@ -324,7 +329,7 @@
             fieldPemilik.innerHTML = `<option value="not-selected" selected>Pilih</option>`;
             fieldKampus.innerHTML = `<option value="not-selected" selected>Pilih</option>`;
             data.dataStaff.forEach(element => {
-              fieldPemilik.innerHTML += `<option value="${element.id_staff}">${element.nama_lengkap}</option>`;
+              fieldPemilik.innerHTML += `<option value="${element.id_staff}">${setGelarInName(element.gelar_depan, element.nama_lengkap, element.gelar_belakang)}</option>`;
             });
             data.dataKampus.forEach(element => {
               fieldKampus.innerHTML += `<option value="${element.id_kampus}">${element.nama_kampus}</option>`;
@@ -436,7 +441,7 @@
             let fieldPenghargaan = document.getElementById('penghargaan');
             let fieldTahun = document.getElementById('tahun');
 
-            fieldPemilik.innerText = data.dataStaff.nama_lengkap + " " + data.dataStaff.gelar;
+            fieldPemilik.innerText = setGelarInName(data.dataStaff.gelar_depan, data.dataStaff.nama_lengkap, data.dataStaff.gelar_belakang);
             fieldJenis.innerText = data.dataPenghargaan.jenis_penghargaan;
             fieldPemberi.innerText = data.dataKampus.nama_kampus;
             fieldPenghargaan.innerText = data.dataPenghargaan.penghargaan;
