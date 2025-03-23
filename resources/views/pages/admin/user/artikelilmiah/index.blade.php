@@ -21,7 +21,7 @@
           @foreach ($dataArtikel as $item)
             <tr>
               <td>{{ $i }}</td>
-              <td>{{ $dataStaff[$i - 1]->nama_lengkap }} {{ $dataStaff[$i - 1]->gelar }}</td>
+              <td>{{ $dataStaff[$i - 1]->gelar_depan }} {{ $dataStaff[$i - 1]->nama_lengkap }} {{ $dataStaff[$i - 1]->gelar_belakang }}</td>
               <td>{{ $item->judul_artikel }}</td>
               <td>{{ $item->tahun }}</td>
               <td class="d-flex">
@@ -89,7 +89,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Artikel Ilmiah</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Artikel Ilmiah</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -203,6 +203,11 @@
   <script>
     let idEdit = null;
     let idHapus = null;
+
+    function setGelarInName(gelar_depan, nama, gelar_belakang) {
+      return gelar_depan + " " + nama + " " + gelar_belakang;
+    }
+
     function deleteModal(id) {
       idHapus = id;
       let xhttp = new XMLHttpRequest();
@@ -250,7 +255,7 @@
             let fieldVolume = document.getElementById('volume_nomor-edit');
             let fieldLink = document.getElementById('link_artikel-edit');
 
-            fieldPemilik.innerHTML = `<option value="${data.dataStaffEdit.id_staff}" selected>${data.dataStaffEdit.nama_lengkap} ${data.dataStaffEdit.gelar}</option>`;
+            fieldPemilik.innerHTML = `<option value="${data.dataStaffEdit.id_staff}" selected>${ setGelarInName(data.dataStaffEdit.gelar_depan, data.dataStaffEdit.nama_lengkap, data.dataStaffEdit.gelar_belakang) }</option>`;
             fieldJudul.value = data.dataArtikelEdit.judul_artikel;
             fieldNamaJurnal.value = data.dataArtikelEdit.nama_jurnal;
             fieldVolume.value = data.dataArtikelEdit.volume_nomor;
@@ -293,7 +298,7 @@
             tbody.innerHTML += `
               <tr>
                 <td>${i + 1}</td>
-                <td>${data.dataStaff[i].nama_lengkap } ${ data.dataStaff[i].gelar }</td>
+                <td>${ setGelarInName(data.dataStaff[i].gelar_depan, data.dataStaff[i].nama_lengkap, data.dataStaff[i].gelar_belakang) }</td>
                 <td>${element.judul_artikel }</td>
                 <td>${element.tahun }</td>
                 <td class="d-flex">
@@ -322,7 +327,7 @@
             let fieldPemilik = document.getElementById('nama_pemilik-add');
             fieldPemilik.innerHTML = `<option value="not-selected" selected>Pilih</option>`;
             data.dataStaff.forEach(element => {
-              fieldPemilik.innerHTML += `<option value="${element.id_staff}">${element.nama_lengkap}</option>`;
+              fieldPemilik.innerHTML += `<option value="${element.id_staff}">${setGelarInName(element.gelar_depan, element.nama_lengkap, element.gelar_belakang)}</option>`;
             });
             let tahunArtikel= document.getElementById('tahun_artikel-add');
             let date = new Date();
@@ -439,7 +444,7 @@
             let fieldVolume = document.getElementById('volume_nomor');
             let fieldLink = document.getElementById('link_artikel');
 
-            fieldPemilik.innerText = data.dataStaff.nama_lengkap;
+            fieldPemilik.innerText = setGelarInName(data.dataStaff.gelar_depan, data.dataStaff.nama_lengkap, data.dataStaff.gelar_belakang);
             fieldJudul.innerText = data.dataArtikel.judul_artikel;
             fieldNamaJurnal.innerText = data.dataArtikel.nama_jurnal;
             fieldTahun.innerText = data.dataArtikel.tahun;
