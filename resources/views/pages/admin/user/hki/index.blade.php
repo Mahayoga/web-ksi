@@ -21,7 +21,7 @@
           @foreach ($dataHKI as $item)
             <tr>
               <td>{{ $i + 1 }}</td>
-              <td>{{ $dataStaff[$i]->nama_lengkap }} {{ $dataStaff[$i]->gelar }}</td>
+              <td>{{ $dataStaff[$i]->gelar_depan }} {{ $dataStaff[$i]->nama_lengkap }} {{ $dataStaff[$i]->gelar_belakang }}</td>
               <td>{{ $item->judul_hki }}</td>
               <td>{{ $item->tanggal }}</td>
               <td class="d-flex">
@@ -227,6 +227,11 @@
   <script>
     let idEdit = null;
     let idHapus = null;
+
+    function setGelarInName(gelar_depan, nama, gelar_belakang) {
+      return gelar_depan + " " + nama + " " + gelar_belakang;
+    }
+
     function deleteModal(id) {
       idHapus = id;
       let xhttp = new XMLHttpRequest();
@@ -275,7 +280,7 @@
             let fieldNomorID = document.getElementById('nomor_id-edit');
             let fieldLink = document.getElementById('link_hki-edit');
 
-            fieldPemilik.innerHTML = `<option value="${data.dataStaff.id_staff}">${data.dataStaff.nama_lengkap} ${data.dataStaff.gelar}</option>`;
+            fieldPemilik.innerHTML = `<option value="${data.dataStaff.id_staff}">${setGelarInName(data.dataStaff.gelar_depan, data.dataStaff.nama_lengkap, data.dataStaff.gelar_belakang)}</option>`;
             fieldJudul.value = data.dataHKI.judul_hki;
             flatpickr('#tanggal-edit', {
               dateFormat: "Y-m-d",
@@ -308,7 +313,7 @@
             tbody.innerHTML += `
               <tr>
                 <td>${i + 1}</td>
-                <td>${ data.dataStaff[i].nama_lengkap } ${ data.dataStaff[i].gelar }</td>
+                <td>${ setGelarInName(data.dataStaff[i].gelar_depan, data.dataStaff[i].nama_lengkap, data.dataStaff[i].gelar_belakang) }</td>
                 <td>${ element.judul_hki }</td>
                 <td>${ element.tanggal }</td>
                 <td class="d-flex">
@@ -340,7 +345,7 @@
             let fieldPemilik = document.getElementById('nama_pemilik-add');
             fieldPemilik.innerHTML = `<option value="not-selected" selected>Pilih</option>`;
             data.dataStaff.forEach(element => {
-              fieldPemilik.innerHTML += `<option value="${element.id_staff}">${element.nama_lengkap}</option>`;
+              fieldPemilik.innerHTML += `<option value="${element.id_staff}">${setGelarInName(element.gelar_depan, element.nama_lengkap, element.gelar_belakang)}</option>`;
             });
           }
         }
@@ -453,7 +458,7 @@
             let fieldNomorID = document.getElementById('nomor_id');
             let fieldLink = document.getElementById('link_hki');
 
-            fieldPemilik.innerText = data.dataStaff.nama_lengkap + " " + data.dataStaff.gelar;
+            fieldPemilik.innerText = setGelarInName(data.dataStaff.gelar_depan, data.dataStaff.nama_lengkap, data.dataStaff.gelar_belakang);
             fieldJudul.innerText = data.dataHKI.judul_hki;
             fieldTanggal.innerText = data.dataHKI.tanggal;
             fieldJenis.innerText = data.dataHKI.jenis;
