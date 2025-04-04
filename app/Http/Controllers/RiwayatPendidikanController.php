@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\KampusModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\StaffModel;
 use App\Models\RiwayatPendidikanModel;
@@ -13,9 +14,18 @@ use Illuminate\Support\Facades\DB;
 class RiwayatPendidikanController extends Controller
 {
     public function getData() {
-        $dataRiwayat = RiwayatPendidikanModel::select()
-            ->orderByDesc('created_at')
-            ->get();
+        $user = new User();
+        $dataRiwayat = null;
+        if($user->isAdmin()) {
+            $dataRiwayat = RiwayatPendidikanModel::select()
+                ->orderByDesc('created_at')
+                ->get();
+        } else {
+            $dataRiwayat = RiwayatPendidikanModel::select()
+                ->where('id_staff_pemilik', $user->getUserId())
+                ->orderByDesc('created_at')
+                ->get();
+        }
         $dataBidangIlmu = [];
         $dataPembimbing = [];
         $dataPemilik = [];
@@ -93,9 +103,18 @@ class RiwayatPendidikanController extends Controller
      */
     public function index()
     {
-        $dataRiwayat = RiwayatPendidikanModel::select()
-            ->orderByDesc('created_at')
-            ->get();
+        $user = new User();
+        $dataRiwayat = null;
+        if($user->isAdmin()) {
+            $dataRiwayat = RiwayatPendidikanModel::select()
+                ->orderByDesc('created_at')
+                ->get();
+        } else {
+            $dataRiwayat = RiwayatPendidikanModel::select()
+                ->where('id_staff_pemilik', $user->getUserId())
+                ->orderByDesc('created_at')
+                ->get();
+        }
         $dataBidangIlmu = [];
         $dataPembimbing = [];
         $dataPemilik = [];
@@ -121,7 +140,16 @@ class RiwayatPendidikanController extends Controller
      */
     public function create()
     {
-        $dataPemilik = StaffModel::select()->get();
+        $user = new User();
+        $dataPemilik = null;
+        if($user->isAdmin()) {
+            $dataPemilik = StaffModel::select()
+                ->get();
+        } else {
+            $dataPemilik = StaffModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         $dataKampus = KampusModel::select()->get();
         return response()->json([
             'dataPemilik' => $dataPemilik,

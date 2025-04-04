@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SeminarModel;
 use App\Models\StaffModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -11,7 +12,15 @@ class SeminarController extends Controller
 {
 
     public function getSeminar() {
-        $dataSeminar = SeminarModel::select()->get();
+        $user = new User();
+        $dataSeminar = null;
+        if($user->isAdmin()) {
+            $dataSeminar = SeminarModel::select()->get();
+        } else {
+            $dataSeminar = SeminarModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         $dataStaff = [];
         foreach($dataSeminar as $item) {
             $dataStaff[] = $item->staff;
@@ -28,7 +37,15 @@ class SeminarController extends Controller
      */
     public function index()
     {
-        $dataSeminar = SeminarModel::select()->get();
+        $user = new User();
+        $dataSeminar = null;
+        if($user->isAdmin()) {
+            $dataSeminar = SeminarModel::select()->get();
+        } else {
+            $dataSeminar = SeminarModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         $dataStaff = [];
         foreach($dataSeminar as $item) {
             $dataStaff[] = $item->staff;
@@ -42,8 +59,15 @@ class SeminarController extends Controller
      */
     public function create()
     {
-        $dataStaff = StaffModel::select()->get();
-
+        $user = new User();
+        $dataStaff = null;
+        if($user->isAdmin()) {
+            $dataStaff = StaffModel::select()->get();
+        } else {
+            $dataStaff = StaffModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         return response()->json([
             'status' => 'success',
             'dataStaff' => $dataStaff

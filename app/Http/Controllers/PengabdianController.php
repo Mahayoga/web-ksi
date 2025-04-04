@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PengabdianModel;
 use App\Models\StaffModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -11,7 +12,15 @@ class PengabdianController extends Controller
 {
 
     public function getPengabdian() {
-        $dataPengabdian = PengabdianModel::select()->get();
+        $user = new User();
+        $dataPengabdian = null;
+        if($user->isAdmin()) {
+            $dataPengabdian = PengabdianModel::select()->get();
+        } else {
+            $dataPengabdian = PengabdianModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         $dataStaff = [];
         foreach($dataPengabdian as $item) {
             $dataStaff[] = $item->staff;
@@ -29,7 +38,15 @@ class PengabdianController extends Controller
      */
     public function index()
     {
-        $dataPengabdian = PengabdianModel::select()->get();
+        $user = new User();
+        $dataPengabdian = null;
+        if($user->isAdmin()) {
+            $dataPengabdian = PengabdianModel::select()->get();
+        } else {
+            $dataPengabdian = PengabdianModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         $dataStaff = [];
         foreach($dataPengabdian as $item) {
             $dataStaff[] = $item->staff;
@@ -43,8 +60,15 @@ class PengabdianController extends Controller
      */
     public function create()
     {
-        $dataStaff = StaffModel::select()->get();
-
+        $user = new User();
+        $dataStaff = null;
+        if($user->isAdmin()) {
+            $dataStaff = StaffModel::select()->get();
+        } else {
+            $dataStaff = StaffModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         return response()->json([
             'status' => 'success',
             'dataStaff' => $dataStaff

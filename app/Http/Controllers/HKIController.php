@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\HKIModel;
 use App\Models\StaffModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -11,7 +12,15 @@ class HKIController extends Controller
 {
 
     public function getHKI() {
-        $dataHKI = HKIModel::select()->get();
+        $user = new User();
+        $dataHKI = null;
+        if($user->isAdmin()) {
+            $dataHKI = HKIModel::select()->get();
+        } else {
+            $dataHKI = HKIModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         $dataStaff = [];
         foreach($dataHKI as $item) {
             $dataStaff[] = $item->staff;
@@ -29,7 +38,15 @@ class HKIController extends Controller
      */
     public function index()
     {
-        $dataHKI = HKIModel::select()->get();
+        $user = new User();
+        $dataHKI = null;
+        if($user->isAdmin()) {
+            $dataHKI = HKIModel::select()->get();
+        } else {
+            $dataHKI = HKIModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         $dataStaff = [];
         foreach($dataHKI as $item) {
             $dataStaff[] = $item->staff;
@@ -42,7 +59,15 @@ class HKIController extends Controller
      */
     public function create()
     {
-        $dataStaff = StaffModel::select()->get();
+        $user = new User();
+        $dataStaff = null;
+        if($user->isAdmin()) {
+            $dataStaff = StaffModel::select()->get();
+        } else {
+            $dataStaff = StaffModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
 
         return response()->json([
             'status' => 'success',

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ArtikelModel;
 use App\Models\StaffModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -11,7 +12,15 @@ class ArtikelIlmiahController extends Controller
 {
 
     public function getArtikelIlmiah() {
-        $dataArtikel = ArtikelModel::select()->get();
+        $user = new User();
+        $dataArtikel = null;
+        if($user->isAdmin()) {
+            $dataArtikel = ArtikelModel::select()->get();
+        } else {
+            $dataArtikel = ArtikelModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         $dataStaff = [];
         foreach($dataArtikel as $item) {
             $dataStaff[] = $item->staff;
@@ -28,8 +37,15 @@ class ArtikelIlmiahController extends Controller
      */
     public function index()
     {
-        $dataArtikel = ArtikelModel::select()
-            ->get();
+        $user = new User();
+        $dataArtikel = null;
+        if($user->isAdmin()) {
+            $dataArtikel = ArtikelModel::select()->get();
+        } else {
+            $dataArtikel = ArtikelModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         $dataStaff = [];
         foreach($dataArtikel as $item) {
             $dataStaff[] = $item->staff;
@@ -42,7 +58,15 @@ class ArtikelIlmiahController extends Controller
      */
     public function create()
     {
-        $dataStaff = StaffModel::select()->get();
+        $user = new User();
+        $dataStaff = null;
+        if($user->isAdmin()) {
+            $dataStaff = StaffModel::select()->get();
+        } else {
+            $dataStaff = StaffModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         return response()->json([
             'status' => 'success',
             'dataStaff' => $dataStaff
@@ -113,8 +137,15 @@ class ArtikelIlmiahController extends Controller
      */
     public function edit(string $id)
     {
-        $dataArtikel = ArtikelModel::select()
-            ->get();
+        $user = new User();
+        $dataArtikel = null;
+        if($user->isAdmin()) {
+            $dataArtikel = ArtikelModel::select()->get();
+        } else {
+            $dataArtikel = ArtikelModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         $dataStaff = StaffModel::select()
             ->get();
         $dataArtikelEdit = ArtikelModel::find($id);
@@ -123,7 +154,6 @@ class ArtikelIlmiahController extends Controller
             'status' => 'success',
             'dataArtikelEdit' => $dataArtikelEdit,
             'dataStaffEdit' => $dataStaffEdit,
-
             'dataArtikel' => $dataArtikel,
             'dataStaff' => $dataStaff
         ]);

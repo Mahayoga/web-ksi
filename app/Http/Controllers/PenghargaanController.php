@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\KampusModel;
 use App\Models\PenghargaanModel;
 use App\Models\StaffModel;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,7 +13,15 @@ class PenghargaanController extends Controller
 {
 
     public function getPenghargaan() {
-        $dataPenghargaan = PenghargaanModel::select()->get();
+        $user = new User();
+        $dataPenghargaan = null;
+        if($user->isAdmin()) {
+            $dataPenghargaan = PenghargaanModel::select()->get();
+        } else {
+            $dataPenghargaan = PenghargaanModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         $dataStaff = [];
         $dataKampus = [];
         foreach($dataPenghargaan as $item) {
@@ -33,7 +42,15 @@ class PenghargaanController extends Controller
      */
     public function index()
     {
-        $dataPenghargaan = PenghargaanModel::select()->get();
+        $user = new User();
+        $dataPenghargaan = null;
+        if($user->isAdmin()) {
+            $dataPenghargaan = PenghargaanModel::select()->get();
+        } else {
+            $dataPenghargaan = PenghargaanModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         $dataStaff = [];
         $dataKampus = [];
         foreach($dataPenghargaan as $item) {
@@ -49,7 +66,15 @@ class PenghargaanController extends Controller
      */
     public function create()
     {
-        $dataStaff = StaffModel::select()->get();
+        $user = new User();
+        $dataStaff = null;
+        if($user->isAdmin()) {
+            $dataStaff = StaffModel::select()->get();
+        } else {
+            $dataStaff = StaffModel::select()
+                ->where('id_staff', $user->getUserId())
+                ->get();
+        }
         $dataKampus = KampusModel::select()->get();
 
         return response()->json([
