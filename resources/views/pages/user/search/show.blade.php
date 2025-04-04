@@ -23,7 +23,7 @@
               <img src="{{ asset('storage/' . $dataStaff->profile_image) }}" alt="profil" class="w-100">
             </div>
             <div class="col-md-7">
-              <p class="fs-4 text-primary-emphasis fw-bold">{{ $dataStaff->nama_lengkap }}, {{ $dataStaff->gelar }}</p>
+              <p class="fs-4 text-primary-emphasis fw-bold">{{ $dataStaff->gelar_depan }} {{ $dataStaff->nama_lengkap }} {{ $dataStaff->gelar_belakang }}</script></p>
               <p class="fs-6 light">EDUCATION/ EDUCATIONAL TECHNOLOGY AND COMPUTING/ SPECIALIST STUDIES IN EDUCATION</p>
               <div class="row text-primary-emphasis fw-light">
                 <div class="col-md-1 pe-1">
@@ -68,12 +68,37 @@
 
       <!-- Profile Section -->
       <div class="row custom-section" id="profile">
-        <div class="card shadow-sm my-4">
-          <div class="card-body fw-light">{{ $dataStaff->nama_lengkap }} Lorem ipsum, dolor sit amet consectetur adipisicing elit. Error dignissimos atque quas aut pariatur tenetur quos consequuntur qui ea at dolorem sapiente totam numquam, odit fuga quisquam corporis modi ratione! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsa porro doloremque quaerat. Voluptate ratione enim illo, commodi, consectetur mollitia ipsa nesciunt quasi, ducimus corporis iure! Debitis ratione atque quos omnis!</div>
-        </div>
+        {{-- 
+        1. Deskripsi (sepertinya sudah)
+        2. Bidang yang diminati
+        3. Latar belakang edukasi (Education Background)
+        4. Penelitian yang tertarik (Research Interest)
+        5. Beasiswa
+        6. Sertifikasi
+        --}}
         <div class="card shadow-sm p-3 my-4">
           <div class="card-title text-primary-emphasis fw-bold">DETAIL PROFIL</div>
-          <div class="card-body fw-light">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Aspernatur, beatae veniam quia magnam architecto iste necessitatibus culpa totam vitae tempore, consequuntur, ipsam nam eaque harum maiores error saepe maxime officiis!</div>
+          <div class="card-body fw-light">{{ $dataStaff->deskripsi }}</div>
+        </div>
+        <div class="card shadow-sm p-3 my-4">
+          <div class="card-title text-primary-emphasis fw-bold">BIDANG YANG DIMINATI</div>
+          <div class="card-body fw-light">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur enim blanditiis in praesentium totam facilis dolorum laboriosam eos, neque eaque repudiandae doloremque iusto ut alias dignissimos veniam aliquid amet ratione!</div>
+        </div>
+        <div class="card shadow-sm p-3 my-4">
+          <div class="card-title text-primary-emphasis fw-bold">LATAR BELAKANG EDUKASI</div>
+          <div class="card-body fw-light">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur enim blanditiis in praesentium totam facilis dolorum laboriosam eos, neque eaque repudiandae doloremque iusto ut alias dignissimos veniam aliquid amet ratione!</div>
+        </div>
+        <div class="card shadow-sm p-3 my-4">
+          <div class="card-title text-primary-emphasis fw-bold">BIDANG YANG DIMINATI</div>
+          <div class="card-body fw-light">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur enim blanditiis in praesentium totam facilis dolorum laboriosam eos, neque eaque repudiandae doloremque iusto ut alias dignissimos veniam aliquid amet ratione!</div>
+        </div>
+        <div class="card shadow-sm p-3 my-4">
+          <div class="card-title text-primary-emphasis fw-bold">BEASISWA</div>
+          <div class="card-body fw-light">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur enim blanditiis in praesentium totam facilis dolorum laboriosam eos, neque eaque repudiandae doloremque iusto ut alias dignissimos veniam aliquid amet ratione!</div>
+        </div>
+        <div class="card shadow-sm p-3 my-4">
+          <div class="card-title text-primary-emphasis fw-bold">SERTIFIKASI</div>
+          <div class="card-body fw-light">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pariatur enim blanditiis in praesentium totam facilis dolorum laboriosam eos, neque eaque repudiandae doloremque iusto ut alias dignissimos veniam aliquid amet ratione!</div>
         </div>
       </div>
 
@@ -193,6 +218,10 @@
   </section><!-- /Starter Section Section -->
 
   <script>
+    function setGelarInName(gelar_depan, nama, gelar_belakang) {
+      return gelar_depan + " " + nama + " " + gelar_belakang;
+    }
+
     function setSection(element) {
       let customElementHide = document.querySelectorAll('.custom-section');
       for(var i = 0; i < customElementHide.length; i++) {

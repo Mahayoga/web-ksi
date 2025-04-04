@@ -58,7 +58,7 @@
                           <img src="{{ asset('storage/' . $item['dataStaff']->profile_image) }}" alt="profil" class="rounded-circle w-100">
                         </div>
                         <div class="col-md-9">
-                          <p class="fs-6 m-0 text-primary-emphasis fw-bold">{{ $item['dataStaff']->nama_lengkap }}, {{ $item['dataStaff']->gelar }}</p>
+                          <p class="fs-6 m-0 text-primary-emphasis fw-bold">{{ $item['dataStaff']->gelar_depan }} {{ $item['dataStaff']->nama_lengkap }} {{ $item['dataStaff']->gelar_belakang }}</p>
                           <p class="fs-6">{{ $item['dataStaff']->kantor->nama_kantor }}</p>
                           <p class="fs-6 m-0 text-primary-emphasis fw-light">{{ $item['dataPublikasi']->jumlah }} Publication {{ $item['dataPaten']->jumlah }} Patent/IP</p>
                           <p class="fs-6 m-0 text-primary-emphasis fw-light">{{ $item['dataPrototipe']['jumlah'] }} Prototype {{ $item['dataPenelitian']->jumlah }} Research</p>
