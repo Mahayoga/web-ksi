@@ -355,7 +355,7 @@
         }
       };
 
-      xhttp.open('GET', '{{ route("penghargaan.create") }}', true);
+      xhttp.open('GET', '{{ route("seminar.create") }}', true);
       xhttp.send();
     }
 
