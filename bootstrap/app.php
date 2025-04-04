@@ -14,14 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->use([
-            //
-        ]);
-        $middleware->prependToGroup('check.login', [
-            CheckLogin::class
-        ]);
-        $middleware->prependToGroup('check.admin', [
-            CheckIfAdmin::class
+        $middleware->alias([
+            'check.login' => CheckLogin::class,
+            'check.admin'=> CheckIfAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
