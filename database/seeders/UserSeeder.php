@@ -31,5 +31,13 @@ class UserSeeder extends Seeder
             'role' => 'staff',
             'id_staff' => 'd196be94-b1be-11ef-9fcd-763fda8715d5'
         ]);
+        UserModel::create([
+            'id' => null,
+            'name' => 'Denny',
+            'email' => 'denny@polije.ac.id',
+            'password' => password_hash('admin1234', PASSWORD_BCRYPT, ['cost' => 12]),
+            'role' => 'staff',
+            'id_staff' => 'ecd09a5a-e14a-11ef-a4d9-847eec23e929'
+        ]);
     }
 }
